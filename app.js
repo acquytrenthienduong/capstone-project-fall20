@@ -1,4 +1,7 @@
+//module dependencies
 const express = require('express');
+const chalk = require('chalk');
+
 var mysql = require('mysql');
 
 //define connection
@@ -6,10 +9,14 @@ var con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "quangdaicA1@",
-    insecureAuth : true
+    insecureAuth: true
 });
 
 const app = express();
+
+//config express
+app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
+app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
 
 //Middlewares
 app.use('/posts', (req, res) => {
@@ -32,4 +39,7 @@ con.connect(function (err) {
 });
 
 //PORT
-app.listen(3000);
+app.listen(app.get('port'), () => {
+    console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
+    console.log('  Press CTRL-C to stop\n');
+});
