@@ -1,16 +1,21 @@
 //module dependencies
 const express = require('express');
 const chalk = require('chalk');
-
+var bodyParser = require('body-parser');
+const expressSession = require('express-session');
 var mysql = require('mysql');
+var passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
-//define connection
+//define & config connection
 var con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "quangdaicA1@",
     insecureAuth: true
 });
+
+const userController = require('./controllers/user');
 
 const app = express();
 
@@ -19,6 +24,15 @@ app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
 app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
 
 //Middlewares
+app.use(expressSession({ secret: 'keyboard cat' }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+const passportConfig = require('./config/passport');
+
+// init passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/posts', (req, res) => {
     console.log('this is middleware function')
 });
@@ -31,6 +45,32 @@ app.get('/', (req, res) => {
 app.get('/post', (req, res) => {
     res.send('post');
 });
+
+//Primary app routes
+app.get('/login', userController.getLogin);
+app.post('/login', userController.postLogin);
+app.get('/logout', userController.logout);
+
+passport.serializeUser(function (user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+    done(null, user);
+});
+
+//Test. remove after
+const users = [{ name: 'name', password: '123456' }];
+app.get('/users', (req, res) => {
+    res.json(users);
+})
+
+app.post('/users', (req, res) => {
+    console.log(req.body);
+    const user = { name: req.body.name, password: req.body.password };
+    users.push(user);
+    res.status(201).send();
+})
 
 //Connect Mysql
 con.connect(function (err) {
