@@ -1,5 +1,4 @@
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 
 exports.getLogin = (req, res) => {
     if (req.user) {
@@ -20,18 +19,14 @@ exports.postLogin = (req, res, next) => {
     if (!req.body.password) {
         validationErrors.push({ mes: "empty password" });
     }
-    // console.log("quang anh", req.body);
 
     passport.authenticate('local', (err, user, info) => {
-        console.log('user', user);
         if (err) { return next(err); }
         if (!user) {
-            // req.flash('errors', info);
             res.status(500).send({ msg: "sai" })
         }
         req.logIn(user, (err) => {
             if (err) { return next(err); }
-            // req.flash('success', { msg: 'Success! You are logged in.' });
             res.status(200).send({ msg: "longin success" })
         });
     })(req, res, next);

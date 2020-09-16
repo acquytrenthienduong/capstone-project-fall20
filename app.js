@@ -46,18 +46,14 @@ app.get('/post', (req, res) => {
     res.send('post');
 });
 
-//Primary app routes
+// app routes
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
 
-passport.serializeUser(function (user, done) {
-    done(null, user);
-});
 
-passport.deserializeUser(function (user, done) {
-    done(null, user);
-});
+// primary app routes
+
 
 //Test. remove after
 const users = [{ name: 'name', password: '123456' }];

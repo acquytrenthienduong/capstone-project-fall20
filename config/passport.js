@@ -16,7 +16,6 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    console.log('id', id);
     var flag = false;
     users.forEach(element => {
         if (element.username === id) {
@@ -30,8 +29,6 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(new LocalStrategy('local', (username, password, done) => {
-    console.log("localstrategy", username)
-
     if (username === 'admin' && password === 'admin') {
         var user = {};
         user.username = username;
@@ -42,3 +39,10 @@ passport.use(new LocalStrategy('local', (username, password, done) => {
         return done(null, false, { msg: 'Invalid email or password.' });
     }
 }));
+
+exports.isAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+};
