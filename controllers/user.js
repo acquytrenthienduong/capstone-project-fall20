@@ -23,11 +23,13 @@ exports.postLogin = (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
         if (err) { return next(err); }
         if (!user) {
-            res.status(500).send({ msg: "sai" })
+            req.flash('errors', info);
+            return res.redirect('/login');
         }
         req.logIn(user, (err) => {
             if (err) { return next(err); }
-            res.status(200).send({ msg: "longin success" })
+            req.flash('success', { msg: 'Success! You are logged in.' });
+            res.redirect(req.session.returnTo || '/');
         });
     })(req, res, next);
 }

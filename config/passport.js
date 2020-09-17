@@ -16,16 +16,11 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    var flag = false;
     users.forEach(element => {
         if (element.username === id) {
-            flag = true;
             done(null, element);
         }
     });
-    if (!flag) {
-        done(err, false);
-    }
 });
 
 passport.use(new LocalStrategy('local', (username, password, done) => {

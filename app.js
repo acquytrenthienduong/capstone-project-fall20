@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 const expressSession = require('express-session');
 var mysql = require('mysql');
 var passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const flash = require('express-flash');
 
 //define & config connection
 var con = mysql.createConnection({
@@ -32,6 +32,7 @@ const passportConfig = require('./config/passport');
 // init passport
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 app.use('/posts', (req, res) => {
     console.log('this is middleware function')
