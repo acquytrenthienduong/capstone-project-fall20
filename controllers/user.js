@@ -24,6 +24,7 @@ exports.postLogin = (req, res, next) => {
         if (err) { return next(err); }
         if (!user) {
             req.flash('errors', info);
+            // return res.status(500).send({ msg: "login fail" })
             return res.redirect('/login');
         }
         req.logIn(user, (err) => {
