@@ -8,17 +8,20 @@ var passport = require('passport');
 const flash = require('express-flash');
 const Pusher = require('pusher');
 
+
 //define & config connection
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "quangdaicA1@",
-    insecureAuth: true
-});
+// var con = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "quangdaicA1@",
+//     insecureAuth: true
+// });
 
 const userController = require('./controllers/user');
+const customerController = require('./controllers/customer');
 
 const app = express();
+const db = require("./models/index");
 
 const pusher = new Pusher({
     appId: '1080579',
@@ -54,6 +57,8 @@ app.use(flash());
 app.use('/posts', (req, res) => {
     console.log('this is middleware function')
 });
+db.sequelize.sync();
+
 
 //schedule
 app.post('/schedule', (req, res) => {
@@ -85,7 +90,7 @@ app.get('/post', (req, res) => {
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
-
+app.get('/customer', customerController.findAll)
 
 // primary app routes
 
@@ -104,10 +109,10 @@ app.post('/users', (req, res) => {
 })
 
 //Connect Mysql
-con.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
-});
+// con.connect(function (err) {
+//     if (err) throw err;
+//     console.log("Connected!");
+// });
 
 //PORT
 app.listen(app.get('port'), () => {
