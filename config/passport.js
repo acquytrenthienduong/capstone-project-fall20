@@ -1,38 +1,41 @@
 const passport = require('passport');
-const axios = require('axios');
 const { Strategy: LocalStrategy } = require('passport-local');
+const db = require("../models/index");
+const Customer = db.customer;
 
-class User {
-    constructor(username, password) {
-        this.username = username;
-        this.password = password;
-    }
-}
-
-const users = [{ username: 'admin', password: 'admin' }, { username: 'admin1', password: 'admin1' }]
-
-passport.serializeUser((user, done) => {
-    done(null, user.username);
+passport.serializeUser((customer, done) => {
+    done(null, customer.account);
 });
 
-passport.deserializeUser((id, done) => {
-    users.forEach(element => {
-        if (element.username === id) {
-            done(null, element);
-        }
-    });
+passport.deserializeUser((account, done) => {
+    Customer.findOne({ account: account })
+        .then(data => {
+            if (data) {
+                done(null, data);
+            }
+        })
+        .catch(err => {
+            return done(err);
+        });
 });
 
-passport.use(new LocalStrategy('local', (username, password, done) => {
-    if (username === 'admin' && password === 'admin') {
-        var user = {};
-        user.username = username;
-        user.password = password;
-        return done(null, user);
-    }
-    else {
-        return done(null, false, { msg: 'Invalid email or password.' });
-    }
+passport.use(new LocalStrategy('local', (account, password, done) => {
+    Customer.findOne({ account: account.toLowerCase() })
+        .then(data => {
+            console.log('data', data)
+            if (!data) {
+                return done(null, false, { msg: `username ${account} not found.` });
+            }
+            if (data.password === password) {
+                return done(null, data);
+            }
+            else {
+                return done(null, false, { msg: 'Invalid email or password.' });
+            }
+        })
+        .catch(err => {
+            return done(err);
+        });
 }));
 
 exports.isAuthenticated = (req, res, next) => {

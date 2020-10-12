@@ -19,6 +19,7 @@ const Pusher = require('pusher');
 
 const userController = require('./controllers/user');
 const customerController = require('./controllers/customer');
+const managerController = require('./controllers/manager');
 
 const app = express();
 const db = require("./models/index");
@@ -90,7 +91,8 @@ app.get('/post', (req, res) => {
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
-app.get('/customer', customerController.findAll)
+app.get('/customer', passportConfig.isAuthenticated, customerController.findAll)
+app.get('/manager', managerController.findAll)
 
 // primary app routes
 
