@@ -3,21 +3,10 @@ const express = require('express');
 const chalk = require('chalk');
 var bodyParser = require('body-parser');
 const expressSession = require('express-session');
-var mysql = require('mysql');
 var passport = require('passport');
 const flash = require('express-flash');
 const Pusher = require('pusher');
 
-
-//define & config connection
-// var con = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "quangdaicA1@",
-//     insecureAuth: true
-// });
-
-const userController = require('./controllers/user');
 const customerController = require('./controllers/customer');
 const managerController = require('./controllers/manager');
 
@@ -60,7 +49,6 @@ app.use('/posts', (req, res) => {
 });
 db.sequelize.sync();
 
-
 //schedule
 app.post('/schedule', (req, res) => {
     const { body } = req;
@@ -88,11 +76,16 @@ app.get('/post', (req, res) => {
 });
 
 // app routes
-app.get('/login', userController.getLogin);
-app.post('/login', userController.postLogin);
-app.get('/logout', userController.logout);
+app.get('/loginCustomer', customerController.getLogin);
+app.post('/loginCustomer', customerController.postLogin);
+app.get('/logoutCustomer', customerController.logout);
+
+app.get('/login', managerController.getLogin);
+app.post('/login', managerController.postLogin);
+app.get('/logout', managerController.logout);
+
 app.get('/customer', passportConfig.isAuthenticated, customerController.findAll)
-app.get('/manager', managerController.findAll)
+app.get('/manager', passportConfig.isAuthenticated, managerController.findAll)
 
 // primary app routes
 
@@ -109,12 +102,6 @@ app.post('/users', (req, res) => {
     users.push(user);
     res.status(201).send();
 })
-
-//Connect Mysql
-// con.connect(function (err) {
-//     if (err) throw err;
-//     console.log("Connected!");
-// });
 
 //PORT
 app.listen(app.get('port'), () => {

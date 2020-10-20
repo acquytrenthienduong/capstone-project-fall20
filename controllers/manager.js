@@ -1,6 +1,7 @@
 const db = require("../models/index");
 const Manager = db.manager;
 const Op = db.Sequelize.Op;
+const passport = require('passport');
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -101,4 +102,49 @@ exports.deleteAll = (req, res) => {
 // Find all published Tutorials
 exports.findAllPublished = (req, res) => {
 
+};
+
+exports.getLogin = (req, res) => {
+    console.log("get login manager", req.session.passport)
+    if (req.user instanceof Manager) {
+        res.status(200).send({ msg: "da dang nhap role manage" })
+    }
+    else {
+        res.status(200).send({ msg: "chua dang nhap" })
+    }
+};
+
+exports.postLogin = (req, res, next) => {
+
+    const validationErrors = [];
+    if (!req.body.username) {
+        validationErrors.push({ mes: "empty username" });
+    }
+
+    if (!req.body.password) {
+        validationErrors.push({ mes: "empty password" });
+    }
+
+    passport.authenticate('manager-local', { session: false }, (err, manager, info) => {
+        if (err) { return next(err); }
+        if (!manager) {
+            req.flash('errors', info);
+            // return res.status(500).send({ msg: "login fail" })
+            return res.redirect('/login');
+        }
+        req.logIn(manager, (err) => {
+            if (err) { return next(err); }
+            req.flash('success', { msg: 'Success! You are logged in.' });
+            res.redirect(req.session.returnTo || '/');
+        });
+    })(req, res, next);
+}
+
+exports.logout = (req, res) => {
+    req.logout();
+    req.session.destroy((err) => {
+        if (err) console.log('Error : Failed to destroy the session during logout.', err);
+        req.account = null;
+        res.status(200).send({ msg: "longout success" })
+    });
 };
