@@ -85,7 +85,10 @@ app.post('/login', managerController.postLogin);
 app.get('/logout', managerController.logout);
 
 app.get('/customer', passportConfig.isAuthenticated, customerController.findAll)
-app.get('/manager', passportConfig.isAuthenticated, managerController.findAll)
+app.get('/manager', managerController.findAll)
+app.post('/addManager', managerController.create)
+app.post('/updateManager/:id', managerController.update)
+app.get('/searchGender', managerController.searchGender)
 
 // primary app routes
 

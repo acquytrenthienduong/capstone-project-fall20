@@ -14,15 +14,15 @@ exports.create = (req, res) => {
     }
 
     // Create a Tutorial
-    const customer = {
+    const manager = {
         account: req.body.account,
         password: req.body.password,
-        email: req.body.email,
+        dob: req.body.dob,
         gender: req.body.gender
     };
 
     // Save Tutorial in the database
-    Customer.create(customer)
+    Manager.create(manager)
         .then(data => {
             res.send(data);
         })
@@ -66,10 +66,11 @@ exports.findOne = (req, res) => {
 
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
+    console.log('req.params.id', req.params.id)
     const id = req.params.id;
 
-    Customer.update(req.body, {
-        where: { id: id }
+    Manager.update(req.body, {
+        where: { manager_id: id }
     })
         .then(num => {
             if (num == 1) {
@@ -91,14 +92,51 @@ exports.update = (req, res) => {
 
 // Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {
+    const id = req.params.id;
 
+    Manager.delete(req.body, {
+        where: { manager_id: id }
+    })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the Tutorial."
+            });
+        });
 };
 
 // Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {
 
 };
+// Search
+exports.searchGender = (req, res) => {
+    console.log('req.params.gender', req.params.gender)
+    const gender = req.params.gender;
 
+    Manager.searchGender(req.body, {
+        
+        // where: {
+        //     gender: gender
+        // }
+    })
+        .then(data => {
+            console.log("data", data)
+            if (gender == 1) {
+                res.send(data);
+            }
+            
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tutorials."
+            });
+        });
+};
 // Find all published Tutorials
 exports.findAllPublished = (req, res) => {
 
