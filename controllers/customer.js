@@ -38,7 +38,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   Customer.findAll()
     .then(data => {
-      console.log("data", data)
+      // console.log("data", data)
       res.send(data);
     })
     .catch(err => {

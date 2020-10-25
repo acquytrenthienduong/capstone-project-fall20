@@ -12,6 +12,7 @@ function sessionConstructor(userId, userGroup, details, role) {
 }
 
 passport.serializeUser((user, done) => {
+    // console.log('user', user);
     let userGroup = "Customer";
     let userId = null;
     if (user instanceof Customer) {
@@ -23,6 +24,7 @@ passport.serializeUser((user, done) => {
         userId = user.manager_id
     }
     let session = new sessionConstructor(userId, userGroup, "");
+    console.log('session', session);
     done(null, session)
 });
 
@@ -71,6 +73,7 @@ passport.use('customer-local', new LocalStrategy('local', (account, password, do
 }));
 
 passport.use('manager-local', new LocalStrategy('local', (account, password, done) => {
+    console.log('account', account);
     Manager.findOne({ where: { account: account.toLowerCase() } })
         .then(data => {
             if (!data) {

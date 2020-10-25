@@ -56,7 +56,7 @@ app.post('/schedule', (req, res) => {
         ...body,
         // set the selected property of the body to true
     };
-    console.log('data', data);
+    // console.log('data', data);
     // trigger a new-entry event on the vote-channel
     pusher.trigger('schedule', 'new-event', data);
     res.json(data);
@@ -84,7 +84,7 @@ app.get('/login', managerController.getLogin);
 app.post('/login', managerController.postLogin);
 app.get('/logout', managerController.logout);
 
-app.get('/customer', passportConfig.isAuthenticated, customerController.findAll)
+app.get('/customer', customerController.findAll)
 app.get('/manager', managerController.findAll)
 app.post('/addManager', managerController.create)
 app.post('/updateManager/:id', managerController.update)
@@ -100,7 +100,7 @@ app.get('/users', (req, res) => {
 })
 
 app.post('/users', (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const user = { name: req.body.name, password: req.body.password };
     users.push(user);
     res.status(201).send();

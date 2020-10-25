@@ -38,7 +38,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
     Manager.findAll()
         .then(data => {
-            console.log("data", data)
+            // console.log("data", data)
             res.send(data);
         })
         .catch(err => {
@@ -118,17 +118,17 @@ exports.searchGender = (req, res) => {
     const gender = req.params.gender;
 
     Manager.searchGender(req.body, {
-        
+
         // where: {
         //     gender: gender
         // }
     })
         .then(data => {
-            console.log("data", data)
+            // console.log("data", data)
             if (gender == 1) {
                 res.send(data);
             }
-            
+
         })
         .catch(err => {
             res.status(500).send({
@@ -148,12 +148,12 @@ exports.getLogin = (req, res) => {
         res.status(200).send({ msg: "da dang nhap role manage" })
     }
     else {
-        res.status(200).send({ msg: "chua dang nhap" })
+        res.status(500).send({ msg: "chua dang nhap" })
     }
 };
 
 exports.postLogin = (req, res, next) => {
-
+    console.log('req', req.body)
     const validationErrors = [];
     if (!req.body.username) {
         validationErrors.push({ mes: "empty username" });
@@ -163,8 +163,9 @@ exports.postLogin = (req, res, next) => {
         validationErrors.push({ mes: "empty password" });
     }
 
-    passport.authenticate('manager-local', { session: false }, (err, manager, info) => {
+    passport.authenticate('manager-local', (err, manager, info) => {
         if (err) { return next(err); }
+        console.log('manager', manager);
         if (!manager) {
             req.flash('errors', info);
             // return res.status(500).send({ msg: "login fail" })
