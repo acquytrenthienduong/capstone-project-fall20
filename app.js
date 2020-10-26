@@ -9,6 +9,7 @@ const Pusher = require('pusher');
 
 const customerController = require('./controllers/customer');
 const managerController = require('./controllers/manager');
+const reservationDetailController = require('./controllers/reservationDetail');
 
 const app = express();
 const db = require("./models/index");
@@ -90,6 +91,7 @@ app.post('/addManager', managerController.create)
 app.post('/updateManager/:id', managerController.update)
 app.get('/searchGender', managerController.searchGender)
 
+app.get('/getAllReservationDetail', reservationDetailController.findAll)
 // primary app routes
 
 
