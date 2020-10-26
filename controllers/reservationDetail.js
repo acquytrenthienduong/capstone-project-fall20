@@ -1,5 +1,5 @@
 const db = require("../models/index");
-const Manager = db.manager;
+const ReservationDetail = db.reservationdetail;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 
@@ -36,7 +36,7 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-    Manager.findAll(res.body)
+    ReservationDetail.findAll()
         .then(data => {
             // console.log("data", data)
             res.send(data);
@@ -50,17 +50,16 @@ exports.findAll = (req, res) => {
 };
 
 // Find a single Tutorial with an id
-exports.findByGender = (req, res) => {
-    const gender = req.params.gender
-    Manager.findAll({
-        where: { gender: gender }
-    })
+exports.findOne = (req, res) => {
+    const id = req.params.id
+
+    Customer.findByPk(id)
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving Tutorial with id=" + gender
+                message: "Error retrieving Tutorial with id=" + id
             });
         });
 };
@@ -114,7 +113,6 @@ exports.deleteAll = (req, res) => {
 
 };
 // Search
-
 exports.searchGender = (req, res) => {
     console.log('req.params.gender', req.params.gender)
     const gender = req.params.gender;

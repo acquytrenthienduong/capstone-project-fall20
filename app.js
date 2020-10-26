@@ -11,6 +11,9 @@ const customerController = require('./controllers/customer');
 const managerController = require('./controllers/manager');
 const staffController = require('./controllers/staff');
 const shiftController = require('./controllers/shift');
+const notificationController = require('./controllers/notification');
+const receptionistController = require('./controllers/receptionist');
+const reservationDetailController = require('./controllers/reservationDetail');
 
 const app = express();
 const db = require("./models/index");
@@ -58,7 +61,7 @@ app.post('/schedule', (req, res) => {
         ...body,
         // set the selected property of the body to true
     };
-    console.log('data', data);
+    // console.log('data', data);
     // trigger a new-entry event on the vote-channel
     pusher.trigger('schedule', 'new-event', data);
     res.json(data);
@@ -89,6 +92,7 @@ app.get('/logout', managerController.logout);
 app.get('/customer', passportConfig.isAuthenticated, customerController.findAll)
 
 //manager
+app.get('/customer', customerController.findAll)
 app.get('/manager', managerController.findAll)
 app.post('/addManager', managerController.create)
 app.post('/updateManager/:id', managerController.update)
@@ -99,6 +103,14 @@ app.post('/addStaff', staffController.create)
 app.get('/staff', staffController.findAll)
 app.post('/staffUpdate/:staff_id', staffController.update)
 app.get('/findId/:staff_id', staffController.findByStaff_id)
+app.get('/getAllReservationDetail', reservationDetailController.findAll)
+
+//notification
+app.post('/addNotification', notificationController.create)
+
+
+//receptionist
+app.post('/addReceptionist', receptionistController.create)
 // primary app routes
 
 
@@ -109,7 +121,7 @@ app.get('/users', (req, res) => {
 })
 
 app.post('/users', (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const user = { name: req.body.name, password: req.body.password };
     users.push(user);
     res.status(201).send();
