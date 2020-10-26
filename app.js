@@ -9,6 +9,8 @@ const Pusher = require('pusher');
 
 const customerController = require('./controllers/customer');
 const managerController = require('./controllers/manager');
+const staffController = require('./controllers/staff');
+const shiftController = require('./controllers/shift');
 
 const app = express();
 const db = require("./models/index");
@@ -85,11 +87,18 @@ app.post('/login', managerController.postLogin);
 app.get('/logout', managerController.logout);
 
 app.get('/customer', passportConfig.isAuthenticated, customerController.findAll)
+
+//manager
 app.get('/manager', managerController.findAll)
 app.post('/addManager', managerController.create)
 app.post('/updateManager/:id', managerController.update)
-app.get('/searchGender', managerController.searchGender)
+app.get('/find/:gender', managerController.findByGender)
 
+//staff
+app.post('/addStaff', staffController.create)
+app.get('/staff', staffController.findAll)
+app.post('/staffUpdate/:staff_id', staffController.update)
+app.get('/findId/:staff_id', staffController.findByStaff_id)
 // primary app routes
 
 

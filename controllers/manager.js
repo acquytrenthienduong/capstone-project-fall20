@@ -36,7 +36,7 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-    Manager.findAll()
+    Manager.findAll(res.body)
         .then(data => {
             console.log("data", data)
             res.send(data);
@@ -50,16 +50,17 @@ exports.findAll = (req, res) => {
 };
 
 // Find a single Tutorial with an id
-exports.findOne = (req, res) => {
-    const id = req.params.id
-
-    Customer.findByPk(id)
+exports.findByGender = (req, res) => {
+    const gender = req.params.gender
+    Manager.findAll({
+        where: { gender: gender }
+    })
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving Tutorial with id=" + id
+                message: "Error retrieving Tutorial with id=" + gender
             });
         });
 };
@@ -113,30 +114,7 @@ exports.deleteAll = (req, res) => {
 
 };
 // Search
-exports.searchGender = (req, res) => {
-    console.log('req.params.gender', req.params.gender)
-    const gender = req.params.gender;
 
-    Manager.searchGender(req.body, {
-        
-        // where: {
-        //     gender: gender
-        // }
-    })
-        .then(data => {
-            console.log("data", data)
-            if (gender == 1) {
-                res.send(data);
-            }
-            
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving tutorials."
-            });
-        });
-};
 // Find all published Tutorials
 exports.findAllPublished = (req, res) => {
 
