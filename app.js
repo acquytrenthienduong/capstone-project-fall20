@@ -6,6 +6,7 @@ const expressSession = require('express-session');
 var passport = require('passport');
 const flash = require('express-flash');
 const Pusher = require('pusher');
+var cors = require('cors')
 
 const customerController = require('./controllers/customer');
 const managerController = require('./controllers/manager');
@@ -30,6 +31,8 @@ app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8000);
 app.use(expressSession({ secret: 'keyboard cat' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
@@ -87,6 +90,8 @@ app.get('/logout', managerController.logout);
 
 app.get('/customer', customerController.findAll)
 app.get('/manager', managerController.findAll)
+app.get('/getManagerByID/:id', managerController.findOne)
+app.delete('/manager/:id', managerController.delete)
 app.post('/addManager', managerController.create)
 app.post('/updateManager/:id', managerController.update)
 app.get('/searchGender', managerController.searchGender)
