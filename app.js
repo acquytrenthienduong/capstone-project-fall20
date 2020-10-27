@@ -10,6 +10,10 @@ var cors = require('cors')
 
 const customerController = require('./controllers/customer');
 const managerController = require('./controllers/manager');
+const staffController = require('./controllers/staff');
+const shiftController = require('./controllers/shift');
+const notificationController = require('./controllers/notification');
+const receptionistController = require('./controllers/receptionist');
 const reservationDetailController = require('./controllers/reservationDetail');
 
 const app = express();
@@ -88,15 +92,30 @@ app.get('/login', managerController.getLogin);
 app.post('/login', managerController.postLogin);
 app.get('/logout', managerController.logout);
 
+app.get('/customer', passportConfig.isAuthenticated, customerController.findAll)
+
+//manager
 app.get('/customer', customerController.findAll)
 app.get('/manager', managerController.findAll)
 app.get('/getManagerByID/:id', managerController.findOne)
 app.delete('/manager/:id', managerController.delete)
 app.post('/addManager', managerController.create)
 app.post('/updateManager/:id', managerController.update)
-app.get('/searchGender', managerController.searchGender)
+app.get('/find/:gender', managerController.findByGender)
 
+//staff
+app.post('/addStaff', staffController.create)
+app.get('/staff', staffController.findAll)
+app.post('/staffUpdate/:staff_id', staffController.update)
+app.get('/findId/:staff_id', staffController.findByStaff_id)
 app.get('/getAllReservationDetail', reservationDetailController.findAll)
+
+//notification
+app.post('/addNotification', notificationController.create)
+
+
+//receptionist
+app.post('/addReceptionist', receptionistController.create)
 // primary app routes
 
 

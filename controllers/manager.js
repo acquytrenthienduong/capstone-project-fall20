@@ -64,6 +64,22 @@ exports.findOne = (req, res) => {
     });
 };
 
+// Find a single Tutorial with an id
+exports.findByGender = (req, res) => {
+  const gender = req.params.gender;
+  Manager.findAll({
+    where: { gender: gender },
+  })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error retrieving Tutorial with id=" + gender,
+      });
+    });
+};
+
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
   console.log("req.params.id", req.params.id);
@@ -115,6 +131,7 @@ exports.delete = (req, res) => {
 // Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {};
 // Search
+
 exports.searchGender = (req, res) => {
   console.log("req.params.gender", req.params.gender);
   const gender = req.params.gender;
