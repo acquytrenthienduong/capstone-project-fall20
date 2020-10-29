@@ -159,7 +159,7 @@ exports.searchGender = (req, res) => {
 exports.findAllPublished = (req, res) => { };
 
 exports.getLogin = (req, res) => {
-    console.log("get login manager", req.session.passport);
+    console.log("get login manager", req.user);
     if (req.user instanceof Manager) {
         res.status(200).send({ msg: "da dang nhap role manage" });
     } else {
@@ -182,18 +182,21 @@ exports.postLogin = (req, res, next) => {
         if (err) {
             return next(err);
         }
-        console.log("manager", manager);
+        console.log("1", manager);
         if (!manager) {
-            req.flash("errors", info);
+            // req.flash("errors", info);
             // return res.status(500).send({ msg: "login fail" })
             return res.redirect("/login");
         }
         req.logIn(manager, (err) => {
+            console.log("2", manager)
             if (err) {
                 return next(err);
             }
-            req.flash("success", { msg: "Success! You are logged in." });
-            res.redirect(req.session.returnTo || "/");
+            //req.flash("success", { msg: "Success! You are logged in." });
+            // console.log('(req.session.returnTo', req.session.returnTo)
+            // res.redirect(req.session.returnTo || "/");
+            res.status(200).send({mes: "login success"})
         });
     })(req, res, next);
 };

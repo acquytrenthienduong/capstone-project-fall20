@@ -49,6 +49,27 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.findAllByAccount = (req, res) => {
+  const account = req.params.account
+  Customer.findAll({
+    where: {
+      account: {
+        [Op.like]: '%' + account + '%'
+      }
+    }
+  })
+    .then(data => {
+      // console.log("data", data)
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tutorials."
+      });
+    });
+};
+
 // Find a single Tutorial with an id
 exports.findOne = (req, res) => {
   const id = req.params.id

@@ -92,10 +92,11 @@ app.get('/login', managerController.getLogin);
 app.post('/login', managerController.postLogin);
 app.get('/logout', managerController.logout);
 
-app.get('/customer', passportConfig.isAuthenticated, customerController.findAll)
+app.get('/customer', customerController.findAll)
+app.get('/findAllByAccount/:account', customerController.findAllByAccount)
 
 //manager
-app.get('/customer', customerController.findAll)
+// app.get('/customer', customerController.findAll)
 app.get('/manager', managerController.findAll)
 app.get('/getManagerByID/:id', managerController.findOne)
 app.delete('/manager/:id', managerController.delete)
