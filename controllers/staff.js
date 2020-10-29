@@ -88,3 +88,38 @@ exports.update = (req, res) => {
             });
         });
 };
+exports.findOne = (req, res) => {
+    
+    const id = req.params.staff_id;
+
+    Staff.findByPk(id)
+        .then((data) => {
+            res.send(data);
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error retrieving Manager with id=" + id,
+            });
+        });
+};
+// Delete a Tutorial with the specified id in the request
+exports.delete = (req, res) => {
+    const id = req.params.id;
+    Staff.destroy({
+        where: { staff_id: id },
+    })
+        .then((data) => {
+            console.log("data", data);
+            if (data == 1) {
+                res.status(200).send({
+                    message: "delete success",
+                });
+            }
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the Tutorial.",
+            });
+        });
+};
