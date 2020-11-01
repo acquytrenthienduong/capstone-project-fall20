@@ -1,15 +1,12 @@
 module.exports = (sequelize, Sequelize, DataTypes) => {
     const Reservation = sequelize.define("reservation", {
-        reservations_id: {
+        reservation_id: {
             type: Sequelize.BIGINT,
             primaryKey: true,
             autoIncrement: true
         },
         customer_id: {
             type: Sequelize.STRING
-        },
-        reservation_detail_id: {
-            type: Sequelize.DATE
         },
         bill_bill_id: {
             type: Sequelize.TINYINT
@@ -19,7 +16,22 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         },
         receptionist_receptionist_id: {
             type: Sequelize.TINYINT
-        }
+        },
+        working_time_working_time_id: {
+            type: Sequelize.TINYINT
+        },
+        checkin_time: {
+            type: Sequelize.TIME
+        },
+        reservation_date: {
+            type: Sequelize.DATE
+        },
+        checkout_time: {
+            type: Sequelize.TIME
+        },
+        status: {
+            type: Sequelize.TINYINT
+        },
     }, {
         sequelize,
         tableName: 'reservation',

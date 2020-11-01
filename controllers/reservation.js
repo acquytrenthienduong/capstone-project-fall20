@@ -1,28 +1,29 @@
 const db = require("../models/index");
-const ReservationDetail = db.reservationdetail;
+const Reservation = db.reservation;
+const Customer = db.customer;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.account) {
+    if (!req.body.customer_id) {
         res.status(400).send({
-            message: "account can not be empty!"
+            message: "please choose a customer"
         });
         return;
     }
 
     // Create a Tutorial
-    const manager = {
-        account: req.body.account,
-        password: req.body.password,
-        dob: req.body.dob,
-        gender: req.body.gender
+    const reservation = {
+        customer_id: req.body.customer_id,
+        checkin_time: req.body.checkin_time,
+        reservation_date: req.body.reservation_date,
+        status: req.body.status
     };
 
     // Save Tutorial in the database
-    Manager.create(manager)
+    Reservation.create(reservation)
         .then(data => {
             res.send(data);
         })
@@ -36,7 +37,10 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-    ReservationDetail.findAll()
+    Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
+    Reservation.belongsTo(Customer, { foreignKey: 'customer_id' })
+
+    Reservation.findAll({ include: [Customer] })
         .then(data => {
             // console.log("data", data)
             res.send(data);
@@ -66,26 +70,26 @@ exports.findOne = (req, res) => {
 
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
-    console.log('req.params.id', req.params.id)
+    // console.log('req.params.id', req.params.id)
     const id = req.params.id;
-
-    Manager.update(req.body, {
-        where: { manager_id: id }
+    console.log('req.body', req.body);
+    Reservation.update(req.body, {
+        where: { reservation_id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Customer was updated successfully."
+                    message: "Reservation was updated successfully."
                 });
             } else {
                 res.send({
-                    message: `Cannot update Customer with id=${id}. Maybe Customer was not found or req.body is empty!`
+                    message: `Cannot update Reservation with id=${id}. Maybe Customer was not found or req.body is empty!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error updating Customer with id=" + id
+                message: "Error updating Reservation with id=" + id
             });
         });
 };
