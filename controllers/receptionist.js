@@ -34,26 +34,74 @@ exports.create = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    console.log('req.params.receptionist_id', req.params.receptionist_id)
-    const id = req.params.receptionist_id;
+    console.log('req.params.receptionist_id', req.params.id)
+    const id = req.params.id;
 
     Receptionist.update(req.body, {
-        where: { manager_id: id }
+        where: { receptionist_id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Customer was updated successfully."
+                    message: "Receptionist was updated successfully."
                 });
             } else {
                 res.send({
-                    message: `Cannot update Customer with id=${id}. Maybe Customer was not found or req.body is empty!`
+                    message: `Cannot update Receptionist with id=${id}. Maybe Customer was not found or req.body is empty!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error updating Customer with id=" + id
+                message: "Error updating Receptionist with id=" + id
+            });
+        });
+};
+
+exports.findAll = (req, res) => {
+    Receptionist.findAll(res.body)
+        .then(data => {
+            console.log("data", data)
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tutorials."
+            });
+        });
+};
+exports.findOne = (req, res) => {
+    const id = req.params.id;
+
+    Receptionist.findByPk(id)
+        .then((data) => {
+            res.send(data);
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: "Error retrieving Receptionist with id=" + id,
+            });
+        });
+};
+// Delete a Tutorial with the specified id in the request
+exports.delete = (req, res) => {
+    const id = req.params.id;
+    Receptionist.destroy({
+        where: { receptionist_id: id },
+    })
+        .then((data) => {
+            console.log("data", data);
+            if (data == 1) {
+                res.status(200).send({
+                    message: "delete success",
+                });
+            }
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the Tutorial.",
             });
         });
 };
