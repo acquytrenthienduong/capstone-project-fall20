@@ -1,5 +1,6 @@
 const db = require("../models/index");
 const Staff = db.staff;
+const Shift = db.shift;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 // const { staff } = require("../models/index");
@@ -53,7 +54,11 @@ exports.findByStaff_id = (req, res) => {
         });
 };
 exports.findAll = (req, res) => {
-    Staff.findAll(res.body)
+    // join Shift and staff table, as staff id is main
+    Shift.hasMany(Staff, { foreignKey: 'shift_shift_id' })
+    Staff.belongsTo(Shift, { foreignKey: 'shift_shift_id' })
+
+    Staff.findAll({ include: [Shift] })
         .then(data => {
             console.log("data", data)
             res.send(data);
@@ -88,17 +93,20 @@ exports.update = (req, res) => {
             });
         });
 };
+
+// Find a single staff with an id
 exports.findOne = (req, res) => {
-    
+    Shift.hasMany(Staff, { foreignKey: 'shift_shift_id' })
+    Staff.belongsTo(Shift, { foreignKey: 'shift_shift_id' })
     const id = req.params.staff_id;
 
-    Staff.findByPk(id)
+    Staff.findByPk(id, { include: [Shift] })
         .then((data) => {
             res.send(data);
         })
         .catch((err) => {
             res.status(500).send({
-                message: "Error retrieving Manager with id=" + id,
+                message: "Error retrieving staff with id=" + id,
             });
         });
 };

@@ -112,10 +112,11 @@ app.get('/find/:gender', managerController.findByGender)
 app.post('/addStaff', staffController.create)
 app.get('/staff', staffController.findAll)
 app.post('/staffUpdate/:staff_id', staffController.update)
-app.get('/findId/:staff_id', staffController.findByStaff_id)
+app.get('/findId/:staff_id', staffController.findOne)
 app.get('/getAllReservation', reservationController.findAll)
 app.post('/updateReservation/:id', reservationController.update)
 app.post('/createNewReservation', reservationController.create)
+app.delete('/deleteStaff/:id', staffController.delete)
 
 
 //notification
