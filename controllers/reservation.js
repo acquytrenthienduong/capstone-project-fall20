@@ -20,7 +20,8 @@ exports.create = (req, res) => {
         customer_id: req.body.customer_id,
         checkin_time: req.body.checkin_time,
         reservation_date: req.body.reservation_date,
-        status: req.body.status
+        status: req.body.status,
+        sub_service_sub_service_id: req.body.sub_service_sub_service_id
     };
 
     // Save Tutorial in the database
@@ -45,7 +46,7 @@ exports.findAll = (req, res) => {
     Reservation.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
 
     Reservation.findAll({
-        include: [{ model: Customer }, {model: SubService }],
+        include: [{ model: Customer }, { model: SubService }],
 
 
     })
@@ -106,11 +107,15 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Manager.delete(req.body, {
-        where: { manager_id: id }
+    Reservation.destroy({
+        where: { reservation_id: id }
     })
         .then(data => {
-            res.send(data);
+            if (data == 1) {
+                res.status(200).send({
+                    message: "delete success",
+                });
+            }
         })
         .catch(err => {
             res.status(500).send({

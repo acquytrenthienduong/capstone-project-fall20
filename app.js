@@ -114,10 +114,13 @@ app.post('/addStaff', staffController.create)
 app.get('/staff', staffController.findAll)
 app.post('/staffUpdate/:staff_id', staffController.update)
 app.get('/findId/:staff_id', staffController.findOne)
+app.delete('/deleteStaff/:id', staffController.delete)
+
+//reservation
 app.get('/getAllReservation', reservationController.findAll)
 app.post('/updateReservation/:id', reservationController.update)
 app.post('/createNewReservation', reservationController.create)
-app.delete('/deleteStaff/:id', staffController.delete)
+app.delete('/deleteReservation/:id', reservationController.delete)
 
 
 //subService
