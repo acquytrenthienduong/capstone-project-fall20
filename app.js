@@ -95,6 +95,10 @@ app.get('/logout', managerController.logout);
 app.get('/customer', customerController.findAll)
 app.get('/findAllByAccount/:account', customerController.findAllByAccount)
 
+//shift
+app.get('/shift', shiftController.findAll)
+app.get('/getShiftByID/:id', shiftController.findOne)
+
 //manager
 // app.get('/customer', customerController.findAll)
 app.get('/manager', managerController.findAll)
