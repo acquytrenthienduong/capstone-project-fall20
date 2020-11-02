@@ -1,6 +1,7 @@
 const db = require("../models/index");
 const Reservation = db.reservation;
 const Customer = db.customer;
+const SubService = db.subservice;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 
@@ -40,7 +41,14 @@ exports.findAll = (req, res) => {
     Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
     Reservation.belongsTo(Customer, { foreignKey: 'customer_id' })
 
-    Reservation.findAll({ include: [Customer] })
+    SubService.hasOne(Reservation, { foreignKey: 'sub_service_sub_service_id' })
+    Reservation.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
+
+    Reservation.findAll({
+        include: [{ model: Customer }, {model: SubService }],
+
+
+    })
         .then(data => {
             // console.log("data", data)
             res.send(data);

@@ -15,6 +15,7 @@ const shiftController = require('./controllers/shift');
 const notificationController = require('./controllers/notification');
 const receptionistController = require('./controllers/receptionist');
 const reservationController = require('./controllers/reservation');
+const subServiceController = require('./controllers/subService');
 
 const app = express();
 const db = require("./models/index");
@@ -117,6 +118,10 @@ app.get('/getAllReservation', reservationController.findAll)
 app.post('/updateReservation/:id', reservationController.update)
 app.post('/createNewReservation', reservationController.create)
 app.delete('/deleteStaff/:id', staffController.delete)
+
+
+//subService
+app.get('/getAllSubService/:type', subServiceController.findByType)
 
 
 //notification
