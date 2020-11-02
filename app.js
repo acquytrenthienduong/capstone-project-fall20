@@ -14,7 +14,7 @@ const staffController = require('./controllers/staff');
 const shiftController = require('./controllers/shift');
 const notificationController = require('./controllers/notification');
 const receptionistController = require('./controllers/receptionist');
-const reservationDetailController = require('./controllers/reservationDetail');
+const reservationController = require('./controllers/reservation');
 
 const app = express();
 const db = require("./models/index");
@@ -113,7 +113,10 @@ app.post('/addStaff', staffController.create)
 app.get('/staff', staffController.findAll)
 app.post('/staffUpdate/:staff_id', staffController.update)
 app.get('/findId/:staff_id', staffController.findByStaff_id)
-app.get('/getAllReservationDetail', reservationDetailController.findAll)
+app.get('/getAllReservation', reservationController.findAll)
+app.post('/updateReservation/:id', reservationController.update)
+app.post('/createNewReservation', reservationController.create)
+
 
 //notification
 app.post('/addNotification', notificationController.create)
