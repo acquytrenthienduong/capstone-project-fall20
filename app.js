@@ -125,6 +125,10 @@ app.post('/addNotification', notificationController.create)
 
 //receptionist
 app.post('/addReceptionist', receptionistController.create)
+app.get('/receptionist', receptionistController.findAll)
+app.get('/getReceptionistByID/:id', receptionistController.findOne)
+app.delete('/deleteReceptionist/:id', receptionistController.delete)
+app.post('/updateReceptionist/:id', receptionistController.update)
 // primary app routes
 
 

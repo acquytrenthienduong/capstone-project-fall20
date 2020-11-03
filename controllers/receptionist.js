@@ -1,7 +1,9 @@
 const db = require("../models/index");
 const Receptionist = db.receptionist;
+const Shift = db.shift;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
+const { shift } = require("../models/index");
 
 exports.create = (req, res) => {
     // Validate request
@@ -59,7 +61,10 @@ exports.update = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    Receptionist.findAll(res.body)
+    Shift.hasMany(Receptionist, { foreignKey: 'shift_shift_id' })
+    Receptionist.belongsTo(Shift, { foreignKey: 'shift_shift_id' })
+
+    Receptionist.findAll({ include: [Shift] })
         .then(data => {
             console.log("data", data)
             res.send(data);
@@ -72,9 +77,11 @@ exports.findAll = (req, res) => {
         });
 };
 exports.findOne = (req, res) => {
+    Shift.hasMany(Receptionist, { foreignKey: 'shift_shift_id' })
+    Receptionist.belongsTo(Shift, { foreignKey: 'shift_shift_id' })
     const id = req.params.id;
 
-    Receptionist.findByPk(id)
+    Receptionist.findByPk(id, { include: [Shift] })
         .then((data) => {
             res.send(data);
         })
