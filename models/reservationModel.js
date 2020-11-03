@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         receptionist_id: {
             type: Sequelize.TINYINT
         },
-        receptionist_receptionist_id: {
+        receptionist_id: {
             type: Sequelize.TINYINT
         },
         working_time_working_time_id: {
@@ -30,6 +30,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             type: Sequelize.TIME
         },
         status: {
+            type: Sequelize.TINYINT
+        },
+        sub_service_sub_service_id: {
             type: Sequelize.TINYINT
         },
     }, {

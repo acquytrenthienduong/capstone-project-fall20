@@ -1,6 +1,7 @@
 const db = require("../models/index");
 const Reservation = db.reservation;
 const Customer = db.customer;
+const SubService = db.subservice;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 
@@ -19,7 +20,8 @@ exports.create = (req, res) => {
         customer_id: req.body.customer_id,
         checkin_time: req.body.checkin_time,
         reservation_date: req.body.reservation_date,
-        status: req.body.status
+        status: req.body.status,
+        sub_service_sub_service_id: req.body.sub_service_sub_service_id
     };
 
     // Save Tutorial in the database
@@ -40,7 +42,14 @@ exports.findAll = (req, res) => {
     Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
     Reservation.belongsTo(Customer, { foreignKey: 'customer_id' })
 
-    Reservation.findAll({ include: [Customer] })
+    SubService.hasOne(Reservation, { foreignKey: 'sub_service_sub_service_id' })
+    Reservation.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
+
+    Reservation.findAll({
+        include: [{ model: Customer }, { model: SubService }],
+
+
+    })
         .then(data => {
             // console.log("data", data)
             res.send(data);
@@ -98,11 +107,15 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Manager.delete(req.body, {
-        where: { manager_id: id }
+    Reservation.destroy({
+        where: { reservation_id: id }
     })
         .then(data => {
-            res.send(data);
+            if (data == 1) {
+                res.status(200).send({
+                    message: "delete success",
+                });
+            }
         })
         .catch(err => {
             res.status(500).send({
