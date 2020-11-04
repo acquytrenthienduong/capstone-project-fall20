@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         total_money: {
             type: Sequelize.FLOAT
         },
-        time: {
+        date: {
             type: Sequelize.DATE
         },
         status: {
@@ -17,8 +17,14 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         payment_method_payment_method_id: {
             type: Sequelize.TINYINT
         },
-        service_service_id: {
+        sub_service_sub_service_id: {
             type: Sequelize.TINYINT
+        },
+        reservation_reservation_id: {
+            type: Sequelize.TINYINT
+        },
+        time: {
+            type: Sequelize.TIME
         }
     }, {
         sequelize,

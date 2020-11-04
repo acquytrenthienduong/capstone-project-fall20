@@ -20,7 +20,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         service_service_id: {
             type: Sequelize.TINYINT
         },
-        sesstion: {
+        session: {
             type: Sequelize.TINYINT
         }
     }, {

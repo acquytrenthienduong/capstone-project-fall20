@@ -16,6 +16,7 @@ const notificationController = require('./controllers/notification');
 const receptionistController = require('./controllers/receptionist');
 const reservationController = require('./controllers/reservation');
 const subServiceController = require('./controllers/subService');
+const billController = require('./controllers/bill');
 
 const app = express();
 const db = require("./models/index");
@@ -138,6 +139,10 @@ app.get('/getReceptionistByID/:id', receptionistController.findOne)
 app.delete('/deleteReceptionist/:id', receptionistController.delete)
 app.post('/updateReceptionist/:id', receptionistController.update)
 // primary app routes
+
+
+//bill
+app.post('/createBill', billController.create)
 
 
 //Test. remove after
