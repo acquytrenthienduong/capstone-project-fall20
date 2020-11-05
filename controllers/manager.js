@@ -196,7 +196,7 @@ exports.postLogin = (req, res, next) => {
             //req.flash("success", { msg: "Success! You are logged in." });
             // console.log('(req.session.returnTo', req.session.returnTo)
             // res.redirect(req.session.returnTo || "/");
-            res.status(200).send({mes: "login success"})
+            res.status(200).send(manager)
         });
     })(req, res, next);
 };

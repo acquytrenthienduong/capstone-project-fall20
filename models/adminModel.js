@@ -1,30 +1,24 @@
 module.exports = (sequelize, Sequelize, DataTypes) => {
-    const Receptionist = sequelize.define("receptionist", {
-        receptionist_id: {
+    const Admin = sequelize.define("admin", {
+        admin_id: {
             type: Sequelize.BIGINT,
             primaryKey: true,
             autoIncrement: true
         },
-        account: {
+        username: {
             type: Sequelize.STRING
         },
         password: {
             type: Sequelize.STRING
         },
-        dob: {
-            type: Sequelize.STRING
-        },
-        shift_shift_id: {
-            type: Sequelize.TINYINT
-        },
         role: {
             type: Sequelize.STRING
-        }
+        },
     }, {
         sequelize,
-        tableName: 'receptionist',
+        tableName: 'admin',
         timestamps: false
     });
 
-    return Receptionist;
+    return Admin;
 };

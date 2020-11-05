@@ -10,6 +10,7 @@ var cors = require('cors')
 
 const customerController = require('./controllers/customer');
 const managerController = require('./controllers/manager');
+const adminController = require('./controllers/admin');
 const staffController = require('./controllers/staff');
 const shiftController = require('./controllers/shift');
 const notificationController = require('./controllers/notification');
@@ -86,13 +87,26 @@ app.get('/post', (req, res) => {
 });
 
 // app routes
+
+//customer
 app.get('/loginCustomer', customerController.getLogin);
 app.post('/loginCustomer', customerController.postLogin);
 app.get('/logoutCustomer', customerController.logout);
 
-app.get('/login', managerController.getLogin);
-app.post('/login', managerController.postLogin);
-app.get('/logout', managerController.logout);
+//manager
+app.get('/loginManager', managerController.getLogin);
+app.post('/loginManager', managerController.postLogin);
+app.get('/logoutManager', managerController.logout);
+
+//receptionist
+app.get('/loginReceptionist', receptionistController.getLogin);
+app.post('/loginReceptionist', receptionistController.postLogin);
+app.get('/logoutReceptionist', receptionistController.logout);
+
+//admin
+app.get('/loginAdmin', adminController.getLogin);
+app.post('/loginAdmin', adminController.postLogin);
+app.get('/logoutAdmin', adminController.logout);
 
 app.get('/customer', customerController.findAll)
 app.get('/findAllByAccount/:account', customerController.findAllByAccount)

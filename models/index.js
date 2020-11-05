@@ -67,5 +67,6 @@ db.subservice = require("./subServiceModel")(sequelize, Sequelize);
 db.reservationdetail = require("./reservationDetailModel")(sequelize, Sequelize);
 db.reservation = require("./reservationModel")(sequelize, Sequelize);
 db.receptionist = require("./receptionistModel")(sequelize, Sequelize);
+db.admin = require("./adminModel")(sequelize, Sequelize);
 
 module.exports = db;

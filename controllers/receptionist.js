@@ -112,3 +112,56 @@ exports.delete = (req, res) => {
             });
         });
 };
+
+exports.getLogin = (req, res) => {
+    console.log("get login receptionist", req.user);
+    if (req.user instanceof Receptionist) {
+        res.status(200).send({ msg: "da dang nhap role Receptionist" });
+    } else {
+        res.status(500).send({ msg: "chua dang nhap" });
+    }
+};
+
+exports.postLogin = (req, res, next) => {
+    console.log("Receptionist", req.body);
+    const validationErrors = [];
+    if (!req.body.username) {
+        validationErrors.push({ mes: "empty username" });
+    }
+
+    if (!req.body.password) {
+        validationErrors.push({ mes: "empty password" });
+    }
+
+    passport.authenticate("receptionist-local", (err, receptionist, info) => {
+        if (err) {
+            return next(err);
+        }
+        console.log("1", receptionist);
+        if (!receptionist) {
+            // req.flash("errors", info);
+            // return res.status(500).send({ msg: "login fail" })
+            return res.redirect("/login");
+        }
+        req.logIn(receptionist, (err) => {
+            console.log("2", receptionist)
+            if (err) {
+                return next(err);
+            }
+            //req.flash("success", { msg: "Success! You are logged in." });
+            // console.log('(req.session.returnTo', req.session.returnTo)
+            // res.redirect(req.session.returnTo || "/");
+            res.status(200).send(receptionist)
+        });
+    })(req, res, next);
+};
+
+exports.logout = (req, res) => {
+    req.logout();
+    req.session.destroy((err) => {
+        if (err)
+            console.log("Error : Failed to destroy the session during logout.", err);
+        req.account = null;
+        res.status(200).send({ msg: "longout success" });
+    });
+};
