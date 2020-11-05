@@ -35,6 +35,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         sub_service_sub_service_id: {
             type: Sequelize.TINYINT
         },
+        is_access: {
+            type: Sequelize.TINYINT
+        },
     }, {
         sequelize,
         tableName: 'reservation',

@@ -38,7 +38,7 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Tutorials from the database.
-exports.findAll = (req, res) => {
+exports.findAllAccess = (req, res) => {
     Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
     Reservation.belongsTo(Customer, { foreignKey: 'customer_id' })
 
@@ -47,8 +47,30 @@ exports.findAll = (req, res) => {
 
     Reservation.findAll({
         include: [{ model: Customer }, { model: SubService }],
+        where: {is_access : 0}
+    })
+        .then(data => {
+            // console.log("data", data)
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tutorials."
+            });
+        });
+};
 
+exports.findAllNotAccess = (req, res) => {
+    Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
+    Reservation.belongsTo(Customer, { foreignKey: 'customer_id' })
 
+    SubService.hasOne(Reservation, { foreignKey: 'sub_service_sub_service_id' })
+    Reservation.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
+
+    Reservation.findAll({
+        include: [{ model: Customer }, { model: SubService }],
+        where: {is_access : 1}
     })
         .then(data => {
             // console.log("data", data)

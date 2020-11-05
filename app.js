@@ -132,7 +132,8 @@ app.get('/findId/:staff_id', staffController.findOne)
 app.delete('/deleteStaff/:id', staffController.delete)
 
 //reservation
-app.get('/getAllReservation', reservationController.findAll)
+app.get('/getAllReservationAccess', reservationController.findAllAccess)
+app.get('/getAllReservationNotAccess', reservationController.findAllNotAccess)
 app.post('/updateReservation/:id', reservationController.update)
 app.post('/createNewReservation', reservationController.create)
 app.delete('/deleteReservation/:id', reservationController.delete)
