@@ -1,4 +1,4 @@
-const db = require("../models/index");
+const db = require("../../models/index");
 const Customer = db.customer;
 const Op = db.Sequelize.Op;
 const passport = require('passport');

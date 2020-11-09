@@ -8,7 +8,9 @@ const flash = require('express-flash');
 const Pusher = require('pusher');
 var cors = require('cors')
 
-const customerController = require('./controllers/customer');
+const customerController = require('./controllers/user/customer');
+const reservationUserController = require('./controllers/user/reservationUser');
+
 const managerController = require('./controllers/manager');
 const adminController = require('./controllers/admin');
 const staffController = require('./controllers/staff');
@@ -38,6 +40,7 @@ app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8000);
 app.use(expressSession({ secret: 'keyboard cat' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(cors());
 
 app.use((req, res, next) => {
@@ -48,6 +51,7 @@ app.use((req, res, next) => {
     );
     next();
 });
+
 const passportConfig = require('./config/passport');
 
 // init passport
@@ -92,7 +96,11 @@ app.get('/post', (req, res) => {
 app.get('/loginCustomer', customerController.getLogin);
 app.post('/loginCustomer', customerController.postLogin);
 app.get('/logoutCustomer', customerController.logout);
-
+app.get('/customer', customerController.findAll)
+app.get('/findAllByAccount/:account', customerController.findAllByAccount)
+app.post('/createNewReservationForUser', reservationUserController.create)
+app.get('/findAllReservationOfCustomer/:id', reservationUserController.findAllReservationOfCustomer)
+//---------------------------------------------------------------------------------//
 //manager
 app.get('/loginManager', managerController.getLogin);
 app.post('/loginManager', managerController.postLogin);
@@ -107,9 +115,6 @@ app.get('/logoutReceptionist', receptionistController.logout);
 app.get('/loginAdmin', adminController.getLogin);
 app.post('/loginAdmin', adminController.postLogin);
 app.get('/logoutAdmin', adminController.logout);
-
-app.get('/customer', customerController.findAll)
-app.get('/findAllByAccount/:account', customerController.findAllByAccount)
 
 //shift
 app.get('/shift', shiftController.findAll)
