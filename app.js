@@ -105,7 +105,7 @@ app.get('/findAllReservationOfCustomer/:id', reservationUserController.findAllRe
 app.get('/loginManager', managerController.getLogin);
 app.post('/loginManager', managerController.postLogin);
 app.get('/logoutManager', managerController.logout);
-
+app.get('/findAllCustomer', customerController.findAll);
 //receptionist
 app.get('/loginReceptionist', receptionistController.getLogin);
 app.post('/loginReceptionist', receptionistController.postLogin);

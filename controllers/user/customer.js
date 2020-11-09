@@ -36,7 +36,7 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-  Customer.findAll()
+  Customer.findAll({})
     .then(data => {
       // console.log("data", data)
       res.send(data);
