@@ -8,7 +8,9 @@ const flash = require('express-flash');
 const Pusher = require('pusher');
 var cors = require('cors')
 
-const customerController = require('./controllers/customer');
+const customerController = require('./controllers/user/customer');
+const reservationUserController = require('./controllers/user/reservationUser');
+
 const managerController = require('./controllers/manager');
 const adminController = require('./controllers/admin');
 const staffController = require('./controllers/staff');
@@ -38,6 +40,7 @@ app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8000);
 app.use(expressSession({ secret: 'keyboard cat' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(cors());
 
 app.use((req, res, next) => {
@@ -48,6 +51,7 @@ app.use((req, res, next) => {
     );
     next();
 });
+
 const passportConfig = require('./config/passport');
 
 // init passport
@@ -61,17 +65,17 @@ app.use('/posts', (req, res) => {
 db.sequelize.sync();
 
 //schedule
-app.post('/schedule', (req, res) => {
-    const { body } = req;
-    const data = {
-        ...body,
-        // set the selected property of the body to true
-    };
-    // console.log('data', data);
-    // trigger a new-entry event on the vote-channel
-    pusher.trigger('schedule', 'new-event', data);
-    res.json(data);
-});
+// app.post('/schedule', (req, res) => {
+//     const { body } = req;
+//     const data = {
+//         ...body,
+//         // set the selected property of the body to true
+//     };
+//     // console.log('data', data);
+//     // trigger a new-entry event on the vote-channel
+//     pusher.trigger('schedule', 'new-event', data);
+//     res.json(data);
+// });
 
 app.get('/schedule', (req, res) => {
     res.json('hello');
@@ -92,7 +96,11 @@ app.get('/post', (req, res) => {
 app.get('/loginCustomer', customerController.getLogin);
 app.post('/loginCustomer', customerController.postLogin);
 app.get('/logoutCustomer', customerController.logout);
-
+app.get('/customer', customerController.findAll)
+app.get('/findAllByAccount/:account', customerController.findAllByAccount)
+app.post('/createNewReservationForUser', reservationUserController.create)
+app.get('/findAllReservationOfCustomer/:id', reservationUserController.findAllReservationOfCustomer)
+//---------------------------------------------------------------------------------//
 //manager
 app.get('/loginManager', managerController.getLogin);
 app.post('/loginManager', managerController.postLogin);
@@ -107,9 +115,6 @@ app.get('/logoutReceptionist', receptionistController.logout);
 app.get('/loginAdmin', adminController.getLogin);
 app.post('/loginAdmin', adminController.postLogin);
 app.get('/logoutAdmin', adminController.logout);
-
-app.get('/customer', customerController.findAll)
-app.get('/findAllByAccount/:account', customerController.findAllByAccount)
 
 //shift
 app.get('/shift', shiftController.findAll)
@@ -137,6 +142,7 @@ app.get('/getAllReservationNotAccess', reservationController.findAllNotAccess)
 app.post('/updateReservation/:id', reservationController.update)
 app.post('/createNewReservation', reservationController.create)
 app.delete('/deleteReservation/:id', reservationController.delete)
+app.get('/findReservation/:from/:to', reservationController.findReservationFromTo)
 
 
 //subService
@@ -158,6 +164,9 @@ app.post('/updateReceptionist/:id', receptionistController.update)
 
 //bill
 app.post('/createBill', billController.create)
+
+
+
 
 
 //Test. remove after
