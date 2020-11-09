@@ -4,7 +4,7 @@ const Customer = db.customer;
 const SubService = db.subservice;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
-
+const moment = require('moment')
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
     // Validate request
@@ -47,7 +47,7 @@ exports.findAllAccess = (req, res) => {
 
     Reservation.findAll({
         include: [{ model: Customer }, { model: SubService }],
-        where: {is_access : 0}
+        where: { is_access: 0 }
     })
         .then(data => {
             // console.log("data", data)
@@ -70,7 +70,7 @@ exports.findAllNotAccess = (req, res) => {
 
     Reservation.findAll({
         include: [{ model: Customer }, { model: SubService }],
-        where: {is_access : 1}
+        where: { is_access: 1 }
     })
         .then(data => {
             // console.log("data", data)
@@ -225,4 +225,47 @@ exports.logout = (req, res) => {
         req.account = null;
         res.status(200).send({ msg: "longout success" })
     });
+}
+
+exports.findReservationFromTo = (req, res) => {
+
+    // console.log("req.params.from", req.params.from);
+    // console.log("req.params.to", req.params.to);
+    // let temp = req.params.from.split('-');
+    // let x = parseInt(temp[2], 10) + 1;
+    // console.log('temp', x);
+
+    // const from = new Date(temp[0] + "-" + temp[1] + "-" + x)
+    const from = moment(req.params.from);
+    const to = moment(req.params.to)
+    // const from = new Date(req.params.from)
+    // const to = new Date(req.params.to)
+
+    let x = req.params.from
+    // console.log('toLocaleTimeString', from.toLocaleTimeString());
+    // console.log('moment().format()', moment(req.params.from));
+    console.log("from", from);
+    console.log("to", to);
+
+
+    Reservation.findAll({
+        where: {
+            reservation_date: {
+                [Op.between]: [from, to]
+                // [Op.between]: [new Date(from), new Date(to)]
+            }
+        },
+        order: [
+            ['reservation_date', 'ASC'],
+        ],
+    })
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving bill."
+            });
+        });
 };

@@ -61,17 +61,17 @@ app.use('/posts', (req, res) => {
 db.sequelize.sync();
 
 //schedule
-app.post('/schedule', (req, res) => {
-    const { body } = req;
-    const data = {
-        ...body,
-        // set the selected property of the body to true
-    };
-    // console.log('data', data);
-    // trigger a new-entry event on the vote-channel
-    pusher.trigger('schedule', 'new-event', data);
-    res.json(data);
-});
+// app.post('/schedule', (req, res) => {
+//     const { body } = req;
+//     const data = {
+//         ...body,
+//         // set the selected property of the body to true
+//     };
+//     // console.log('data', data);
+//     // trigger a new-entry event on the vote-channel
+//     pusher.trigger('schedule', 'new-event', data);
+//     res.json(data);
+// });
 
 app.get('/schedule', (req, res) => {
     res.json('hello');
@@ -137,6 +137,7 @@ app.get('/getAllReservationNotAccess', reservationController.findAllNotAccess)
 app.post('/updateReservation/:id', reservationController.update)
 app.post('/createNewReservation', reservationController.create)
 app.delete('/deleteReservation/:id', reservationController.delete)
+app.get('/findReservation/:from/:to', reservationController.findReservationFromTo)
 
 
 //subService
@@ -158,6 +159,9 @@ app.post('/updateReceptionist/:id', receptionistController.update)
 
 //bill
 app.post('/createBill', billController.create)
+
+
+
 
 
 //Test. remove after

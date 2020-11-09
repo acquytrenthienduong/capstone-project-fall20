@@ -123,7 +123,7 @@ exports.getLogin = (req, res) => {
 };
 
 exports.postLogin = (req, res, next) => {
-    console.log("Receptionist", req.body);
+    console.log("Receptionist json", req.body);
     const validationErrors = [];
     if (!req.body.username) {
         validationErrors.push({ mes: "empty username" });

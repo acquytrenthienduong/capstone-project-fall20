@@ -34,7 +34,7 @@ passport.serializeUser((user, done) => {
         userId = user.receptionist_id
     }
     let session = new sessionConstructor(userId, userGroup, "");
-    console.log('session', session);
+    // console.log('session', session);
     done(null, session)
 });
 
