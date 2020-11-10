@@ -1,5 +1,7 @@
 const db = require("../../models/index");
 const Customer = db.customer;
+const Reservation = db.reservation;
+const SubService = db.subservice;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 
@@ -52,6 +54,44 @@ exports.findAll = (req, res) => {
 exports.findAllByAccount = (req, res) => {
   const account = req.params.account
   Customer.findAll({
+    where: {
+      account: {
+        [Op.like]: '%' + account + '%'
+      }
+    }
+  })
+    .then(data => {
+      // console.log("data", data)
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tutorials."
+      });
+    });
+};
+
+exports.SearchCustomerByAccount = (req, res) => {
+  const account = req.params.account
+
+  Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
+  Reservation.belongsTo(Customer, { foreignKey: 'customer_id' })
+
+  SubService.hasOne(Reservation, { foreignKey: 'sub_service_sub_service_id' })
+  Reservation.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
+
+
+  Customer.findAll({
+    include: [
+      {
+        model: Reservation,
+        include: [
+          SubService
+        ]
+      }
+    ],
+
     where: {
       account: {
         [Op.like]: '%' + account + '%'

@@ -21,7 +21,8 @@ exports.create = (req, res) => {
         checkin_time: req.body.checkin_time,
         reservation_date: req.body.reservation_date,
         status: req.body.status,
-        sub_service_sub_service_id: req.body.sub_service_sub_service_id
+        sub_service_sub_service_id: req.body.sub_service_sub_service_id,
+        is_access: req.body.is_access
     };
 
     // Save Tutorial in the database
