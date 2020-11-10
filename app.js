@@ -115,6 +115,7 @@ app.get('/logoutReceptionist', receptionistController.logout);
 app.get('/loginAdmin', adminController.getLogin);
 app.post('/loginAdmin', adminController.postLogin);
 app.get('/logoutAdmin', adminController.logout);
+app.get('/searchCustomer/:account', customerController.SearchCustomerByAccount)
 
 //shift
 app.get('/shift', shiftController.findAll)
@@ -164,6 +165,7 @@ app.post('/updateReceptionist/:id', receptionistController.update)
 
 //bill
 app.post('/createBill', billController.create)
+app.get('/findAllBill', billController.findAll)
 
 
 
