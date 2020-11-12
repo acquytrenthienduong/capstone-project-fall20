@@ -8,6 +8,7 @@ const flash = require('express-flash');
 const Pusher = require('pusher');
 var cors = require('cors')
 
+
 const customerController = require('./controllers/user/customer');
 const reservationUserController = require('./controllers/user/reservationUser');
 
@@ -20,6 +21,8 @@ const receptionistController = require('./controllers/receptionist');
 const reservationController = require('./controllers/reservation');
 const subServiceController = require('./controllers/subService');
 const billController = require('./controllers/bill');
+const productController = require('./controllers/product');
+
 
 const app = express();
 const db = require("./models/index");
@@ -149,6 +152,12 @@ app.get('/findReservation/:from/:to', reservationController.findReservationFromT
 //subService
 app.get('/getAllSubService/:type', subServiceController.findByType)
 
+//products
+app.get('/products', productController.findAll)
+app.get('/getProductByID/:id', productController.findOne)
+app.delete('/product/:id', productController.delete)
+app.post('/addProduct', productController.create)
+app.post('/updateProduct/:id', productController.update)
 
 //notification
 app.post('/addNotification', notificationController.create)

@@ -55,6 +55,7 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
+db.product = require("./productModel")(sequelize, Sequelize);
 db.customer = require("./customerModel")(sequelize, Sequelize);
 db.manager = require("./managerModel")(sequelize, Sequelize);
 db.feedback = require("./feedbackModel")(sequelize, Sequelize);
