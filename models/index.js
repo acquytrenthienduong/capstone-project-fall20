@@ -68,5 +68,6 @@ db.reservationdetail = require("./reservationDetailModel")(sequelize, Sequelize)
 db.reservation = require("./reservationModel")(sequelize, Sequelize);
 db.receptionist = require("./receptionistModel")(sequelize, Sequelize);
 db.admin = require("./adminModel")(sequelize, Sequelize);
+db.timekeeping = require("./timekeepingModel")(sequelize, Sequelize);
 
 module.exports = db;

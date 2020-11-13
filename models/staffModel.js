@@ -13,6 +13,12 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         },
         shift_shift_id: {
             type: Sequelize.TINYINT
+        },
+        salaryUnit: {
+            type: Sequelize.FLOAT
+        },
+        name: {
+            type: Sequelize.STRING
         }
     }, {
         sequelize,

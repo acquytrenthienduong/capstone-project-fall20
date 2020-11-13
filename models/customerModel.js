@@ -16,6 +16,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         },
         gender: {
             type: Sequelize.TINYINT
+        },
+        name: {
+            type: Sequelize.STRING
         }
     }, {
         sequelize,

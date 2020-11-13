@@ -16,13 +16,16 @@ exports.create = (req, res) => {
   }
 
   // Create a Tutorial
-  const customer = {
+  let customer = {
     account: req.body.account,
     password: req.body.password,
     email: req.body.email,
-    gender: req.body.gender
+    gender: req.body.gender,
+    createAt: new Date(),
+    name: req.body.name
   };
 
+  console.log('customer', customer);
   // Save Tutorial in the database
   Customer.create(customer)
     .then(data => {

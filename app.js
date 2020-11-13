@@ -20,6 +20,7 @@ const receptionistController = require('./controllers/receptionist');
 const reservationController = require('./controllers/reservation');
 const subServiceController = require('./controllers/subService');
 const billController = require('./controllers/bill');
+const timeKeepingController = require('./controllers/timekeeping');
 
 const app = express();
 const db = require("./models/index");
@@ -95,8 +96,10 @@ app.get('/post', (req, res) => {
 //customer
 app.get('/loginCustomer', customerController.getLogin);
 app.post('/loginCustomer', customerController.postLogin);
+app.post('/register', customerController.create);
 app.get('/logoutCustomer', customerController.logout);
 app.get('/customer', customerController.findAll)
+
 app.get('/findAllByAccount/:account', customerController.findAllByAccount)
 app.post('/createNewReservationForUser', reservationUserController.create)
 app.get('/findAllReservationOfCustomer/:id', reservationUserController.findAllReservationOfCustomer)
@@ -166,7 +169,7 @@ app.post('/updateReceptionist/:id', receptionistController.update)
 //bill
 app.post('/createBill', billController.create)
 app.get('/findAllBill', billController.findAll)
-
+app.get('/getAllStaff', timeKeepingController.findAll)
 
 
 
