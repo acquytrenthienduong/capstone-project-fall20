@@ -189,9 +189,9 @@ app.get(
 app.get("/getAllSubService/:type", subServiceController.findByType);
 
 //products
-app.get("/products", productController.findAll);
-app.get("/getProductByID/:id", productController.findOne);
-app.delete("/product/:id", productController.delete);
+// app.get("/products", productController.findAll);
+// app.get("/getProductByID/:id", productController.findOne);
+// app.delete("/product/:id", productController.delete);
 // // app.post('/addProduct', productController.create)
 // app.post('/updateProduct/:id', productController.update)
 
