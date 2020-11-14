@@ -1,5 +1,7 @@
 const db = require("../models/index");
+const Op = db.Sequelize.Op;
 const Bill = db.bill;
+const moment = require('moment')
 
 exports.create = (req, res) => {
     // Validate request
@@ -49,6 +51,52 @@ exports.findAll = (req, res) => {
         order: [
             ['date', 'ASC'],
         ],
+    })
+        .then(data => {
+            res.status(200).send(data)
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the Bill.",
+            });
+        })
+}
+
+exports.findAllInFromTo = (req, res) => {
+    const from = moment(req.params.from);
+    const to = moment(req.params.to)
+    Bill.findAll({
+        where: {
+            date: {
+                [Op.between]: [from, to]
+            }
+        },
+        order: [
+            ['date', 'ASC'],
+        ],
+    })
+        .then(data => {
+            res.status(200).send(data)
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the Bill.",
+            });
+        })
+}
+
+exports.findToday = (req, res) => {
+    let today = moment().toDate();
+    console.log('xxxxxxxxxxxxxxxxxx', today)
+    Bill.findAll({
+        where: {
+            date: {
+                today
+            }
+
+        }
     })
         .then(data => {
             res.status(200).send(data)

@@ -19,6 +19,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         },
         name: {
             type: Sequelize.STRING
+        },
+        createAt: {
+            type: Sequelize.DATE
         }
     }, {
         sequelize,

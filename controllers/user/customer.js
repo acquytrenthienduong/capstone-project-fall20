@@ -163,12 +163,6 @@ exports.deleteAll = (req, res) => {
 
 };
 
-// Find all published Tutorials
-exports.findAllPublished = (req, res) => {
-
-};
-
-
 exports.getLogin = (req, res) => {
   console.log("get login customer", req.session.passport)
   if (req.user instanceof Customer) {

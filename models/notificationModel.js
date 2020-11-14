@@ -6,7 +6,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             autoIncrement: true
         },
         notification_type: {
-            type: Sequelize.STRING
+            type: Sequelize.TINYINT
         },
         content: {
             type: Sequelize.STRING
@@ -18,6 +18,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             type: Sequelize.TINYINT
         },
         manager_manager_id: {
+            type: Sequelize.TINYINT
+        },
+        seen: {
             type: Sequelize.TINYINT
         }
     }, {

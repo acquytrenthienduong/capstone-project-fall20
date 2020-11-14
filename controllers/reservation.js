@@ -229,26 +229,8 @@ exports.logout = (req, res) => {
 }
 
 exports.findReservationFromTo = (req, res) => {
-
-    // console.log("req.params.from", req.params.from);
-    // console.log("req.params.to", req.params.to);
-    // let temp = req.params.from.split('-');
-    // let x = parseInt(temp[2], 10) + 1;
-    // console.log('temp', x);
-
-    // const from = new Date(temp[0] + "-" + temp[1] + "-" + x)
     const from = moment(req.params.from);
     const to = moment(req.params.to)
-    // const from = new Date(req.params.from)
-    // const to = new Date(req.params.to)
-
-    let x = req.params.from
-    // console.log('toLocaleTimeString', from.toLocaleTimeString());
-    // console.log('moment().format()', moment(req.params.from));
-    console.log("from", from);
-    console.log("to", to);
-
-
     Reservation.findAll({
         where: {
             reservation_date: {

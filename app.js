@@ -126,6 +126,7 @@ app.get("/loginCustomer", customerController.getLogin);
 app.post("/loginCustomer", customerController.postLogin);
 app.get("/logoutCustomer", customerController.logout);
 app.get("/customer", customerController.findAll);
+app.post("/register", customerController.create);
 app.get("/findAllByAccount/:account", customerController.findAllByAccount);
 app.post("/createNewReservationForUser", reservationUserController.create);
 app.get(
@@ -180,6 +181,10 @@ app.get(
     reservationController.findReservationFromTo
 );
 
+// app.get(
+//     "/findBill/:from/:to",
+//     billController.findAllInFromTo
+// );
 //subService
 app.get("/getAllSubService/:type", subServiceController.findByType);
 
@@ -194,6 +199,8 @@ app.post("/addProduct", upload.single("img_url"), productController.addProduct);
 
 //notification
 app.post("/addNotification", notificationController.create);
+app.get("/getNotificationForManager", notificationController.findAllNotificationForManager);
+app.post("/seenNoti/:id", notificationController.seenNoti);
 
 //receptionist
 app.post("/addReceptionist", receptionistController.create);
@@ -206,6 +213,8 @@ app.post("/updateReceptionist/:id", receptionistController.update);
 //bill
 app.post("/createBill", billController.create);
 app.get("/findAllBill", billController.findAll);
+app.get("/findBill/:from/:to", billController.findAllInFromTo);
+app.get("/findBillToday", billController.findToday);
 
 //Test. remove after
 const users = [{ name: "name", password: "123456" }];
