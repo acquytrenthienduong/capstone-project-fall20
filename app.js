@@ -158,6 +158,7 @@ app.get('/getProductByID/:id', productController.findOne)
 app.delete('/product/:id', productController.delete)
 app.post('/addProduct', productController.create)
 app.post('/updateProduct/:id', productController.update)
+app.post("/addProduct", upload.single("img_url"), productController.addProduct);
 
 //notification
 app.post('/addNotification', notificationController.create)
