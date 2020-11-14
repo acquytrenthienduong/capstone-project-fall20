@@ -162,6 +162,8 @@ app.get('/getAllSubService/:type', subServiceController.findByType)
 
 //notification
 app.post('/addNotification', notificationController.create)
+app.get('/getNotificationForManager', notificationController.findAllNotificationForManager)
+app.post('/seenNoti/:id', notificationController.seenNoti)
 
 
 //receptionist
