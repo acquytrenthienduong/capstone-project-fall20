@@ -1,17 +1,18 @@
-const db = require("../models/index");
+const db = require("../../models/index");
 const Notification = db.notification;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 
 exports.create = (req, res) => {
     // Validate request
+
+    let id = req.params.id;
     // if (!req.body.account) {
     //     res.status(400).send({
     //         message: "account can not be empty!"
     //     });
     //     return;
     // }
-    let id = req.params.id;
 
     // Create a Tutorial
     const notification = {

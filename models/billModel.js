@@ -25,6 +25,15 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         },
         time: {
             type: Sequelize.TIME
+        },
+        year: {
+            type: Sequelize.BIGINT
+        },
+        month: {
+            type: Sequelize.BIGINT
+        },
+        day: {
+            type: Sequelize.BIGINT
         }
     }, {
         sequelize,

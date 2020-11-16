@@ -161,7 +161,7 @@ app.get('/getAllSubService/:type', subServiceController.findByType)
 // app.post("/addProduct", upload.single("img_url"), productController.addProduct);
 
 //notification
-app.post('/addNotification', notificationController.create)
+app.post('/createNotification/:id', notificationController.create)
 app.get('/getNotificationForManager', notificationController.findAllNotificationForManager)
 app.post('/seenNoti/:id', notificationController.seenNoti)
 
@@ -179,6 +179,7 @@ app.post('/updateReceptionist/:id', receptionistController.update)
 app.post('/createBill', billController.create)
 app.get('/findAllBill', billController.findAll)
 app.get('/findBillToday', billController.findToday)
+app.get('/findBillMonth', billController.findMonth)
 app.get('/findBill/:from/:to', billController.findAllInFromTo)
 
 

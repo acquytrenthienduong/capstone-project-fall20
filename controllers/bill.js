@@ -21,6 +21,9 @@ exports.create = (req, res) => {
         payment_method_payment_method_id: req.body.payment_method_payment_method_id,
         reservation_reservation_id: req.body.reservation_reservation_id,
         sub_service_sub_service_id: req.body.sub_service_sub_service_id,
+        year: req.body.year,
+        month: req.body.month,
+        day: req.body.day
     };
 
     Bill.findAll({
@@ -89,14 +92,44 @@ exports.findAllInFromTo = (req, res) => {
 }
 
 exports.findToday = (req, res) => {
-    let today = moment().toDate();
-    // console.log('xxxxxxxxxxxxxxxxxx', today)
+    let dateRaw = new Date();
+    let year = dateRaw.getFullYear();
+    let month = dateRaw.getMonth() + 1;
+    let dt = dateRaw.getDate();
+
+    console.log("year", year);
+    console.log("month", month);
+    console.log("dt", dt);
     Bill.findAll({
         where: {
-            date: {
-                today
-            }
+            year: year,
+            month: month,
+            day: dt,
+        }
+    })
+        .then(data => {
+            res.status(200).send(data)
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the Bill.",
+            });
+        })
+}
 
+exports.findMonth = (req, res) => {
+    let dateRaw = new Date();
+    let year = dateRaw.getFullYear();
+    let month = dateRaw.getMonth() + 1;
+    let dt = dateRaw.getDate();
+
+    console.log("year", year);
+    console.log("month", month);
+    Bill.findAll({
+        where: {
+            year: year,
+            month: month,
         }
     })
         .then(data => {
