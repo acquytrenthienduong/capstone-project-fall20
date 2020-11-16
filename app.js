@@ -178,6 +178,8 @@ app.post('/updateReceptionist/:id', receptionistController.update)
 //bill
 app.post('/createBill', billController.create)
 app.get('/findAllBill', billController.findAll)
+app.get('/findBillToday', billController.findToday)
+app.get('/findBill/:from/:to', billController.findAllInFromTo)
 
 
 

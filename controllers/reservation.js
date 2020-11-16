@@ -4,7 +4,8 @@ const Customer = db.customer;
 const SubService = db.subservice;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
-const moment = require('moment')
+const moment = require('moment');
+// const { TIME } = require("sequelize/types");
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
     // Validate request
@@ -25,6 +26,49 @@ exports.create = (req, res) => {
         is_access: req.body.is_access
     };
 
+    let date = new Date(req.body.reservation_date);
+    var from = reservation.checkin_time.split(':');
+    var to = reservation.checkin_time.split(':');
+
+    let mFrom = parseInt(from[1], 10) + 20;
+    if (mFrom > 60) {
+        from[0] = parseInt(from[0], 10) + 1;
+        mFrom = mFrom - 60;
+    }
+    let mTo = parseInt(to[1], 10);
+    if (mTo > 20) {
+        mTo = mTo - 20;
+    }
+    else if (mTo == 20) {
+        mTo = '00';
+    }
+    else if (mTo < 20) {
+        to[0] = parseInt(to[0], 10) - 1;
+        mTo = 60 - 20;
+    }
+
+    let validateBelow = to[0] + ":" + mTo + ":" + "00";
+    let validateAbove = from[0] + ":" + mFrom + ":" + "00"
+    // console.log('from', from[0] + ":" + mFrom + ":" + "00")
+    // console.log('to', to[0] + ":" + mTo + ":" + "00")
+
+    console.log('date', date)
+    console.log('date111111', req.body.reservation_date)
+    // Reservation.findAll({
+    //     where: {
+    //         reservation_date: {
+    //             [Op.eq]: "2020-11-16"
+    //     }
+    //         // checkin_time: {
+    //         //     [Op.between]: [validateBelow, validateAbove]
+    //         // }
+    //     }
+    // })
+    //     .then(data => {
+    //         console.log('xxxxxxxxxxxxx', data);
+    //         // res.send(data);
+    //     })
+    // var then = moment(now).subtract(20, "minutes").toDate()
     // Save Tutorial in the database
     Reservation.create(reservation)
         .then(data => {

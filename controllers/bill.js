@@ -27,6 +27,7 @@ exports.create = (req, res) => {
         where: { reservation_reservation_id: bill.reservation_reservation_id }
     })
         .then(data => {
+            // console.log('xxxxxxxxxxxxxxxxxx',data);
             if (data.length > 0) {
                 res.status(201).send({ msg: "bill da dc tao" })
             }
@@ -89,7 +90,7 @@ exports.findAllInFromTo = (req, res) => {
 
 exports.findToday = (req, res) => {
     let today = moment().toDate();
-    console.log('xxxxxxxxxxxxxxxxxx', today)
+    // console.log('xxxxxxxxxxxxxxxxxx', today)
     Bill.findAll({
         where: {
             date: {
