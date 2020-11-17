@@ -4,21 +4,12 @@ const Op = db.Sequelize.Op;
 const passport = require('passport');
 
 exports.create = (req, res) => {
-    // Validate request
-
-    let id = req.params.id;
-    // if (!req.body.account) {
-    //     res.status(400).send({
-    //         message: "account can not be empty!"
-    //     });
-    //     return;
-    // }
 
     // Create a Tutorial
     const notification = {
-        notification_type: 1,
+        notification_type: 0,
         content: req.body.content,
-        customer_customer_id: id,
+        seen: 0
     };
 
     // Save Tutorial in the database
@@ -34,10 +25,12 @@ exports.create = (req, res) => {
         });
 };
 
-exports.findAllNotificationForManager = (req, res) => {
+exports.findAllNotificationForCustomer = (req, res) => {
+    let id = req.params.id
     Notification.findAll({
         where: {
-            notification_type: 0
+            notification_type: 1,
+            customer_customer_id: id
         }
     })
         .then(data => {

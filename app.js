@@ -17,6 +17,7 @@ const adminController = require('./controllers/admin');
 const staffController = require('./controllers/staff');
 const shiftController = require('./controllers/shift');
 const notificationController = require('./controllers/notification');
+const notificationUserController = require('./controllers/user/notificationUser');
 const receptionistController = require('./controllers/receptionist');
 const reservationController = require('./controllers/reservation');
 const subServiceController = require('./controllers/subService');
@@ -99,10 +100,15 @@ app.get('/post', (req, res) => {
 app.get('/loginCustomer', customerController.getLogin);
 app.post('/loginCustomer', customerController.postLogin);
 app.get('/logoutCustomer', customerController.logout);
+app.post('/register', customerController.create);
+app.post('/updateCustomer/:id', customerController.updateById);
 app.get('/customer', customerController.findAll)
 app.get('/findAllByAccount/:account', customerController.findAllByAccount)
 app.post('/createNewReservationForUser', reservationUserController.create)
 app.get('/findAllReservationOfCustomer/:id', reservationUserController.findAllReservationOfCustomer)
+app.get('/subServiceFindOne/:id', subServiceController.findOne)
+app.get('/findNotificationForCustomer/:id', notificationUserController.findAllNotificationForCustomer)
+app.post('/createNotification', notificationUserController.create)
 //---------------------------------------------------------------------------------//
 //manager
 app.get('/loginManager', managerController.getLogin);
