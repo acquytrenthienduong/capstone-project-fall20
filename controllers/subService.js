@@ -19,3 +19,22 @@ exports.findByType = (req, res) => {
             });
         });
 };
+
+exports.findOne = (req, res) => {
+    const id = req.params.id
+    SubService.findOne({
+        where: {
+            sub_service_id: id
+        }
+    })
+        .then(data => {
+            // console.log("data", data)
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tutorials."
+            });
+        });
+};

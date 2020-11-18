@@ -25,7 +25,7 @@ exports.create = (req, res) => {
     name: req.body.name
   };
 
-  console.log('customer', customer);
+  console.log('customer123123', customer);
   // Save Tutorial in the database
   Customer.create(customer)
     .then(data => {
@@ -129,7 +129,7 @@ exports.findOne = (req, res) => {
 };
 
 // Update a Tutorial by the id in the request
-exports.update = (req, res) => {
+exports.updateById = (req, res) => {
   const id = req.params.id;
 
   Customer.update(req.body, {
@@ -196,7 +196,8 @@ exports.postLogin = (req, res, next) => {
     req.logIn(customer, (err) => {
       if (err) { return next(err); }
       req.flash('success', { msg: 'Success! You are logged in.' });
-      res.redirect(req.session.returnTo || '/');
+      // res.redirect(req.session.returnTo || '/');
+      res.status(200).send(customer)
     });
   })(req, res, next);
 }
