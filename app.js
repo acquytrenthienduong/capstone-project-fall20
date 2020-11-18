@@ -7,6 +7,7 @@ var passport = require('passport');
 const flash = require('express-flash');
 const Pusher = require('pusher');
 var cors = require('cors')
+require('dotenv').config();
 
 
 const customerController = require('./controllers/user/customer');
@@ -210,6 +211,8 @@ app.post('/users', (req, res) => {
 
 //PORT
 app.listen(app.get('port'), () => {
+    console.log('process.env.DB', process.env.DB);
+    console.log('process.env.DB', process.env.USER);
     console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
     console.log('  Press CTRL-C to stop\n');
 });

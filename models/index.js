@@ -1,6 +1,7 @@
-const dbConfig = require("../config/dbconfig");
+const dbConfig = require("../config_local");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+
 const operatorsAliases = {
     $eq: Op.eq,
     $ne: Op.ne,
@@ -38,16 +39,15 @@ const operatorsAliases = {
     $col: Op.col
 };
 
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    host: dbConfig.HOST,
-    dialect: dbConfig.dialect,
+const sequelize = new Sequelize(process.env.DB, process.env.USER, process.env.PASSWORD, {
+    host: process.env.HOST,
+    dialect: process.env.DIALECT,
     operatorsAliases: operatorsAliases,
-
     pool: {
-        max: dbConfig.pool.max,
-        min: dbConfig.pool.min,
-        acquire: dbConfig.pool.acquire,
-        idle: dbConfig.pool.idle
+        max: parseInt(process.env.MAX, 10),
+        min: parseInt(process.env.MIN, 10),
+        acquire: process.env.ACQUIRE,
+        idle: process.env.IDLE
     }
 });
 
