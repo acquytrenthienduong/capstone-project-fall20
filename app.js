@@ -109,6 +109,9 @@ app.get('/findAllReservationOfCustomer/:id', reservationUserController.findAllRe
 app.get('/subServiceFindOne/:id', subServiceController.findOne)
 app.get('/findNotificationForCustomer/:id', notificationUserController.findAllNotificationForCustomer)
 app.post('/createNotification', notificationUserController.create)
+app.post('/UserSeenNoti/:id', notificationUserController.seenOne)
+app.post('/updateProfile/:id', customerController.updateById)
+app.get('/loadCustomer/:id', customerController.findOne)
 //---------------------------------------------------------------------------------//
 //manager
 app.get('/loginManager', managerController.getLogin);

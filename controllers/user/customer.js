@@ -116,7 +116,6 @@ exports.SearchCustomerByAccount = (req, res) => {
 // Find a single Tutorial with an id
 exports.findOne = (req, res) => {
   const id = req.params.id
-
   Customer.findByPk(id)
     .then(data => {
       res.send(data);
@@ -131,9 +130,11 @@ exports.findOne = (req, res) => {
 // Update a Tutorial by the id in the request
 exports.updateById = (req, res) => {
   const id = req.params.id;
+  console.log('id', id);
+  console.log('req.body', req.body.customer);
 
-  Customer.update(req.body, {
-    where: { id: id }
+  Customer.update(req.body.customer, {
+    where: { customer_id: id }
   })
     .then(num => {
       if (num == 1) {

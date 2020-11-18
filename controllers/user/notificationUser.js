@@ -30,7 +30,8 @@ exports.findAllNotificationForCustomer = (req, res) => {
     Notification.findAll({
         where: {
             notification_type: 1,
-            customer_customer_id: id
+            customer_customer_id: id,
+            seen: 0
         }
     })
         .then(data => {
@@ -47,6 +48,32 @@ exports.findAllNotificationForCustomer = (req, res) => {
 exports.seenNoti = (req, res) => {
     const id = req.params.id;
     // console.log('req.body', req.body);
+    Notification.update(req.body.noti, {
+        where: { notification_id: id }
+    })
+        .then(num => {
+            console.log(num);
+            if (num == 1) {
+                res.send({
+                    message: "Notification was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Notification with id=${id}. Maybe Notification was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating Reservation with id=" + id
+            });
+        });
+}
+
+exports.seenOne = (req, res) => {
+    const id = req.params.id;
+    // let seen = req.body.seen
+    console.log('req.body.seen', req.body.noti)
     Notification.update(req.body.noti, {
         where: { notification_id: id }
     })
