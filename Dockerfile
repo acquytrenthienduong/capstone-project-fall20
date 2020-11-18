@@ -10,4 +10,7 @@ RUN git clone -b master https://${GITHUB_TOKEN}:x-oauth-basic@github.com/acquytr
 RUN npm install
 
 EXPOSE 8000
+
+EXPOSE 3306
+
 CMD [ "node", "app.js" ]
