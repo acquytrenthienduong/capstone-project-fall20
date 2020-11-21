@@ -7,6 +7,8 @@ RUN echo $GIT_TOKEN
 
 RUN git clone -b master https://${GITHUB_TOKEN}:x-oauth-basic@github.com/acquytrenthienduong/capstone-project-fall20.git /node-quanganh
 
+RUN cp .env_prod .env
+
 RUN npm install
 
 EXPOSE 8000
