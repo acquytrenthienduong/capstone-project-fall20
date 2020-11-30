@@ -96,10 +96,6 @@ exports.findToday = (req, res) => {
     let year = dateRaw.getFullYear();
     let month = dateRaw.getMonth() + 1;
     let dt = dateRaw.getDate();
-
-    console.log("year", year);
-    console.log("month", month);
-    console.log("dt", dt);
     Bill.findAll({
         where: {
             year: year,
