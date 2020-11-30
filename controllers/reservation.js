@@ -117,7 +117,7 @@ exports.findAllNotAccess = (req, res) => {
         include: [{ model: Customer }, { model: SubService }],
         where: { is_access: 0 },
         order: [
-            ['reservation_date', 'ASC'],
+            ['reservation_date', 'DESC'],
         ],
     })
         .then(data => {
