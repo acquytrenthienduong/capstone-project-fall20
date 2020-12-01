@@ -49,7 +49,10 @@ exports.findAllReservationOfCustomer = (req, res) => {
 
     Reservation.findAll({
         include: [{ model: Customer }, { model: SubService }],
-        where: { customer_id: id }
+        where: { customer_id: id },
+        order: [
+            ['reservation_date', 'DESC'],
+        ],
     })
         .then(data => {
             // console.log("data", data)
