@@ -1,6 +1,10 @@
 const db = require("../models/index");
 const Op = db.Sequelize.Op;
 const Bill = db.bill;
+const Reservation = db.reservation;
+const Customer = db.customer;
+const SubService = db.subservice;
+
 const moment = require('moment')
 
 exports.create = (req, res) => {
@@ -30,7 +34,6 @@ exports.create = (req, res) => {
         where: { reservation_reservation_id: bill.reservation_reservation_id }
     })
         .then(data => {
-            // console.log('xxxxxxxxxxxxxxxxxx',data);
             if (data.length > 0) {
                 res.status(201).send({ msg: "bill da dc tao" })
             }
@@ -51,7 +54,24 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
+
+    Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
+    Reservation.belongsTo(Customer, { foreignKey: 'customer_id' })
+
+    Reservation.hasMany(Bill, { foreignKey: "reservation_reservation_id" })
+    Bill.belongsTo(Reservation, { foreignKey: "reservation_reservation_id" })
+
+    SubService.hasMany(Bill, { foreignKey: 'sub_service_sub_service_id' })
+    Bill.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
+
     Bill.findAll({
+        include: [{ model: SubService }, {
+            model: Reservation,
+            include: [
+                Customer
+            ]
+        }],
+
         order: [
             ['date', 'ASC'],
         ],

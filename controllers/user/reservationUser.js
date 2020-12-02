@@ -2,9 +2,6 @@ const db = require("../../models/index");
 const Reservation = db.reservation;
 const Customer = db.customer;
 const SubService = db.subservice;
-const Op = db.Sequelize.Op;
-const passport = require('passport');
-const moment = require('moment')
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
