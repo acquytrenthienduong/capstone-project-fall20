@@ -25,7 +25,6 @@ exports.create = (req, res) => {
     name: req.body.name
   };
 
-  console.log('customer123123', customer);
   // Save Tutorial in the database
   Customer.create(customer)
     .then(data => {
@@ -123,6 +122,24 @@ exports.findOne = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Error retrieving Tutorial with id=" + id
+      });
+    });
+};
+
+exports.findByAccount = (req, res) => {
+  let account = req.params.account
+  Customer.findOne({ where: { account: account } })
+    .then(data => {
+      if (data) {
+        res.send(data);
+      }
+      else {
+        res.status(404).send({ msg: "Khong tim thay" })
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Tutorial with account = " + account
       });
     });
 };

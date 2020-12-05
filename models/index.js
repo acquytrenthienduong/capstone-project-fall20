@@ -39,13 +39,13 @@ const operatorsAliases = {
     $col: Op.col
 };
 
-const sequelize = new Sequelize(process.env.DB, process.env.USER, process.env.PASSWORD, {
+const sequelize = new Sequelize('navatan', 'root', 'quangdaicA1@', {
     host: process.env.HOST,
-    dialect: process.env.DIALECT,
+    dialect: 'mysql',
     operatorsAliases: operatorsAliases,
     pool: {
-        max: parseInt(process.env.MAX, 10),
-        min: parseInt(process.env.MIN, 10),
+        max: 5,
+        min: 0,
         acquire: process.env.ACQUIRE,
         idle: process.env.IDLE
     }
@@ -70,5 +70,6 @@ db.reservation = require("./reservationModel")(sequelize, Sequelize);
 db.receptionist = require("./receptionistModel")(sequelize, Sequelize);
 db.admin = require("./adminModel")(sequelize, Sequelize);
 db.timekeeping = require("./timekeepingModel")(sequelize, Sequelize);
+db.historyactivity = require("./historyActivityModel")(sequelize, Sequelize);
 
 module.exports = db;

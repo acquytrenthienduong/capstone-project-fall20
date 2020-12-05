@@ -23,7 +23,7 @@ const receptionistController = require('./controllers/receptionist');
 const reservationController = require('./controllers/reservation');
 const subServiceController = require('./controllers/subService');
 const billController = require('./controllers/bill');
-const productController = require('./controllers/product');
+const activityController = require('./controllers/activity');
 
 
 const app = express();
@@ -105,6 +105,7 @@ app.post('/register', customerController.create);
 app.post('/updateCustomer/:id', customerController.updateById);
 app.get('/customer', customerController.findAll)
 app.get('/findAllByAccount/:account', customerController.findAllByAccount)
+app.get('/findOne/:account', customerController.findByAccount)
 app.post('/createNewReservationForUser', reservationUserController.create)
 app.get('/findAllReservationOfCustomer/:id', reservationUserController.findAllReservationOfCustomer)
 app.get('/subServiceFindOne/:id', subServiceController.findOne)
@@ -162,19 +163,10 @@ app.get('/findReservation/:from/:to', reservationController.findReservationFromT
 //subService
 app.get('/getAllSubService/:type', subServiceController.findByType)
 
-//products
-// app.get('/products', productController.findAll)
-// app.get('/getProductByID/:id', productController.findOne)
-// app.delete('/product/:id', productController.delete)
-// app.post('/addProduct', productController.create)
-// app.post('/updateProduct/:id', productController.update)
-// app.post("/addProduct", upload.single("img_url"), productController.addProduct);
-
 //notification
 app.post('/createNotification/:id', notificationController.create)
 app.get('/getNotificationForManager', notificationController.findAllNotificationForManager)
 app.post('/seenNoti/:id', notificationController.seenNoti)
-
 
 //receptionist
 app.post('/addReceptionist', receptionistController.create)
@@ -184,7 +176,6 @@ app.delete('/deleteReceptionist/:id', receptionistController.delete)
 app.post('/updateReceptionist/:id', receptionistController.update)
 // primary app routes
 
-
 //bill
 app.post('/createBill', billController.create)
 app.get('/findAllBill', billController.findAll)
@@ -192,22 +183,8 @@ app.get('/findBillToday', billController.findToday)
 app.get('/findBillMonth', billController.findMonth)
 app.get('/findBill/:from/:to', billController.findAllInFromTo)
 
-
-
-
-
-//Test. remove after
-const users = [{ name: 'name', password: '123456' }];
-app.get('/users', (req, res) => {
-    res.json(users);
-})
-
-app.post('/users', (req, res) => {
-    // console.log(req.body);
-    const user = { name: req.body.name, password: req.body.password };
-    users.push(user);
-    res.status(201).send();
-})
+app.post('/createActivity', activityController.create);
+app.get('/findAllActivity', activityController.findAll)
 
 //PORT
 app.listen(app.get('port'), () => {
