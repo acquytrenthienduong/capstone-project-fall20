@@ -134,7 +134,7 @@ exports.findByAccount = (req, res) => {
         res.send(data);
       }
       else {
-        res.status(404).send({ msg: "Khong tim thay" })
+        res.status(201).send({ msg: "Khong tim thay" })
       }
     })
     .catch(err => {
