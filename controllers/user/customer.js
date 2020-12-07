@@ -144,6 +144,24 @@ exports.findByAccount = (req, res) => {
     });
 };
 
+exports.findByEmail = (req, res) => {
+  let email = req.params.email
+  Customer.findOne({ where: { email: email } })
+    .then(data => {
+      if (data) {
+        res.send(data);
+      }
+      else {
+        res.status(201).send({ msg: "Khong tim thay" })
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Tutorial with account = " + email
+      });
+    });
+};
+
 // Update a Tutorial by the id in the request
 exports.updateById = (req, res) => {
   const id = req.params.id;
