@@ -38,6 +38,15 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         is_access: {
             type: Sequelize.TINYINT
         },
+        year: {
+            type: Sequelize.BIGINT
+        },
+        month: {
+            type: Sequelize.BIGINT
+        },
+        day: {
+            type: Sequelize.BIGINT
+        }
     }, {
         sequelize,
         tableName: 'reservation',
