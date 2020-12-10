@@ -127,7 +127,7 @@ exports.delete = (req, res) => {
         .catch((err) => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Tutorial.",
+                    err.message || "delete fail",
             });
         });
 };

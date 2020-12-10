@@ -30,7 +30,7 @@ exports.create = (req, res) => {
         .catch((err) => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Tutorial.",
+                    err.message || "Some error occurred while creating the Manager.",
             });
         });
 };
@@ -92,11 +92,11 @@ exports.update = (req, res) => {
         .then((num) => {
             if (num == 1) {
                 res.send({
-                    message: "Customer was updated successfully.",
+                    message: "Manager was updated successfully.",
                 });
             } else {
                 res.send({
-                    message: `Cannot update Customer with id=${id}. Maybe Customer was not found or req.body is empty!`,
+                    message: `Cannot update Manager with id=${id}. Maybe Customer was not found or req.body is empty!`,
                 });
             }
         })
@@ -124,7 +124,7 @@ exports.delete = (req, res) => {
         .catch((err) => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Tutorial.",
+                    err.message || "Some error occurred while creating the Manager.",
             });
         });
 };

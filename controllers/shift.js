@@ -5,16 +5,16 @@ const passport = require("passport");
 
 exports.create = (req, res) => {
   // Validate request
-  // if (!req.body.account) {
-  //     res.status(400).send({
-  //         message: "account can not be empty!"
-  //     });
-  //     return;
-  // }
+  if (!req.body.shift_name) {
+      res.status(400).send({
+          message: "account can not be empty!"
+      });
+      return;
+  }
 
   // Create a Tutorial
   const shift = {
-    shift_name: req.bo,
+    shift_name: req.body,
   };
 
   // Save Tutorial in the database
