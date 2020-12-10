@@ -19,20 +19,50 @@ exports.create = (req, res) => {
         checkin_time: req.body.checkin_time,
         reservation_date: req.body.reservation_date,
         status: req.body.status,
-        sub_service_sub_service_id: req.body.sub_service_sub_service_id
+        sub_service_sub_service_id: req.body.sub_service_sub_service_id,
+        year: req.body.year,
+        month: req.body.month,
+        day: req.body.day
     };
-
+    let dateRaw = new Date(req.body.reservation_date);
+    let year = dateRaw.getFullYear();
+    let month = dateRaw.getMonth() + 1;
+    let dt = dateRaw.getDate();
+    var temp = reservation.checkin_time.split(':');
+    // console.log('from', temp);
+    let from = parseInt(temp[0], 10) + ":" + "00" + ":" + "00";
+    let to = parseInt(temp[0], 10) + 1 + ":" + "00" + ":" + "00";
     // Save Tutorial in the database
-    Reservation.create(reservation)
+    Reservation.findAll({
+        where: {
+            year: year,
+            month: month,
+            day: dt,
+            checkin_time: {
+                [Op.between]: [from, to]
+            },
+            is_access: 1
+        }
+    })
         .then(data => {
-            res.send(data);
+            if (data.length < 3) {
+                Reservation.create(reservation)
+                    .then(data => {
+                        res.send(data);
+                    })
+                    .catch(err => {
+                        res.status(500).send({
+                            message:
+                                err.message || "Some error occurred while creating the Tutorial."
+                        });
+                    });
+            }
+            else {
+                res.status(201).send({
+                    message: "we are full in time"
+                });
+            }
         })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the Tutorial."
-            });
-        });
 };
 
 // Retrieve all Tutorials from the database.

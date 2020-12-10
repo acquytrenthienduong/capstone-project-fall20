@@ -46,11 +46,11 @@ exports.create = (req, res) => {
             day: dt,
             checkin_time: {
                 [Op.between]: [from, to]
-            }
+            },
+            is_access: 1
         }
     })
         .then(data => {
-            console.log('xxxxxxxxxxxxx', data.length);
             if (data.length < 3) {
                 Reservation.create(reservation)
                     .then(data => {
