@@ -63,6 +63,12 @@ exports.create = (req, res) => {
                 });
             }
         })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the reservation."
+            });
+        });
 };
 
 // Retrieve all Tutorials from the database.
@@ -88,7 +94,7 @@ exports.findAllReservationOfCustomer = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tutorials."
+                    err.message || "Some error occurred while retrieving Reservation."
             });
         });
 };
@@ -111,7 +117,7 @@ exports.findAllNotAccess = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tutorials."
+                    err.message || "Some error occurred while retrieving Reservation."
             });
         });
 };
@@ -126,7 +132,7 @@ exports.findOne = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving Tutorial with id=" + id
+                message: "Error retrieving Reservation with id=" + id
             });
         });
 };
@@ -146,7 +152,7 @@ exports.update = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `Cannot update Reservation with id=${id}. Maybe Customer was not found or req.body is empty!`
+                    message: `Cannot update Reservation with id=${id}`
                 });
             }
         })
@@ -174,7 +180,7 @@ exports.delete = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Tutorial."
+                    err.message || "delete fail"
             });
         });
 };

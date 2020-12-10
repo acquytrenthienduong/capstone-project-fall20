@@ -128,7 +128,7 @@ exports.findAllNotAccess = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Can not find"
+                    err.message || "find all not access fail"
             });
         });
 };
@@ -163,7 +163,7 @@ exports.update = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `Cannot update Reservation with id=${id}. Maybe Customer was not found or req.body is empty!`
+                    message: `Cannot update Reservation with id=${id}`
                 });
             }
         })
@@ -191,7 +191,7 @@ exports.delete = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while delete the Reservation."
+                    err.message || "delete fail"
             });
         });
 };

@@ -35,7 +35,7 @@ exports.create = (req, res) => {
     })
         .then(data => {
             if (data.length > 0) {
-                res.status(201).send({ msg: "bill da dc tao" })
+                res.status(201).send({ msg: "Bill created" })
             }
             else {
                 Bill.create(bill)
