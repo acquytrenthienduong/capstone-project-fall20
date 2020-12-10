@@ -5,12 +5,12 @@ const passport = require('passport');
 
 exports.create = (req, res) => {
     // Validate request
-    // if (!req.body.account) {
-    //     res.status(400).send({
-    //         message: "account can not be empty!"
-    //     });
-    //     return;
-    // }
+    if (!req.body.content) {
+        res.status(400).send({
+            message: "content can not be empty!"
+        });
+        return;
+    }
     let id = req.params.id;
 
     // Create a Tutorial
@@ -28,7 +28,7 @@ exports.create = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Tutorial."
+                    err.message || "Some error occurred while creating the Notification."
             });
         });
 };
@@ -45,7 +45,7 @@ exports.findAllNotificationForManager = (req, res) => {
         .catch((err) => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Bill.",
+                    err.message || "Some error occurred while finding the Notification.",
             });
         })
 }

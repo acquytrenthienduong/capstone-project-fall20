@@ -7,12 +7,12 @@ const { shift } = require("../models/index");
 
 exports.create = (req, res) => {
     // Validate request
-    // if (!req.body.account) {
-    //     res.status(400).send({
-    //         message: "account can not be empty!"
-    //     });
-    //     return;
-    // }
+    if (!req.body.account) {
+        res.status(400).send({
+            message: "account can not be empty!"
+        });
+        return;
+    }
 
     // Create a Tutorial
     const receptionist = {
@@ -30,7 +30,7 @@ exports.create = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Tutorial."
+                    err.message || "Some error occurred while creating the Receptionist."
             });
         });
 };
@@ -72,7 +72,7 @@ exports.findAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tutorials."
+                    err.message || "Some error occurred while retrieving receptionist."
             });
         });
 };
@@ -108,7 +108,7 @@ exports.delete = (req, res) => {
         .catch((err) => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Tutorial.",
+                    err.message || "Some error occurred while delete the Tutorial.",
             });
         });
 };

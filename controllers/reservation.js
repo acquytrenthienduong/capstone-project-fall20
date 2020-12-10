@@ -101,7 +101,7 @@ exports.findAllAccess = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tutorials."
+                    err.message || "Can not find"
             });
         });
 };
@@ -127,7 +127,7 @@ exports.findAllNotAccess = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tutorials."
+                    err.message || "Can not find"
             });
         });
 };
@@ -190,7 +190,7 @@ exports.delete = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Tutorial."
+                    err.message || "Some error occurred while delete the Reservation."
             });
         });
 };
@@ -295,7 +295,7 @@ exports.findReservationFromTo = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving bill."
+                    err.message || "Some error occurred while finding"
             });
         });
 };
