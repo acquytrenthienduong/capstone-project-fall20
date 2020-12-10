@@ -127,7 +127,7 @@ exports.findAllNotAccess = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tutorials."
+                    err.message || "find all not access fail"
             });
         });
 };
@@ -162,7 +162,7 @@ exports.update = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `Cannot update Reservation with id=${id}. Maybe Customer was not found or req.body is empty!`
+                    message: `Cannot update Reservation with id=${id}`
                 });
             }
         })
@@ -190,7 +190,7 @@ exports.delete = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Tutorial."
+                    err.message || "delete fail"
             });
         });
 };

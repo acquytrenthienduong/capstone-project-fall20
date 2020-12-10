@@ -33,7 +33,7 @@ exports.create = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Tutorial."
+          err.message || "Some error occurred while creating the customer."
       });
     });
 };
@@ -48,7 +48,7 @@ exports.findAll = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Some error occurred while retrieving customer."
       });
     });
 };
@@ -69,7 +69,7 @@ exports.findAllByAccount = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Some error occurred while retrieving customer."
       });
     });
 };
@@ -107,7 +107,7 @@ exports.SearchCustomerByAccount = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Some error occurred while retrieving customer."
       });
     });
 };
@@ -121,7 +121,7 @@ exports.findOne = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving Tutorial with id=" + id
+        message: "Error retrieving customer with id=" + id
       });
     });
 };
@@ -184,10 +184,10 @@ exports.deleteAll = (req, res) => {
 exports.getLogin = (req, res) => {
   console.log("get login customer", req.session.passport)
   if (req.user instanceof Customer) {
-    res.status(200).send({ msg: "da dang nhap role customer" })
+    res.status(200).send({ msg: "login succesfully as customer" })
   }
   else {
-    res.status(200).send({ msg: "chua dang nhap" })
+    res.status(200).send({ msg: "login fail" })
   }
 };
 
