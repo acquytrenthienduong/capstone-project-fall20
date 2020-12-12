@@ -281,6 +281,7 @@ exports.findReservationFromTo = (req, res) => {
     const to = moment(req.params.to)
     Reservation.findAll({
         where: {
+            is_access: 1,
             reservation_date: {
                 [Op.between]: [from, to]
                 // [Op.between]: [new Date(from), new Date(to)]
