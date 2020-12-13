@@ -68,7 +68,7 @@ exports.findAll = (req, res) => {
     // Bill.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
 
     Bill.findAll({
-        include: [{ model: SubService }, {
+        include: [{
             model: Reservation,
             include: [
                 { model: Customer },
