@@ -5,6 +5,7 @@ const SubService = db.subservice;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 const moment = require('moment');
+const Bill = db.bill;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -84,13 +85,19 @@ exports.SearchCustomerByAccount = (req, res) => {
   SubService.hasOne(Reservation, { foreignKey: 'sub_service_sub_service_id' })
   Reservation.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
 
+  Reservation.hasMany(Bill, { foreignKey: 'reservation_reservation_id' })
+  Bill.belongsTo(Reservation, { foreignKey: 'reservation_reservation_id' })
 
   Customer.findAll({
     include: [
       {
         model: Reservation,
         include: [
-          SubService
+          {
+            model: SubService
+          }, {
+            model: Bill
+          }
         ]
       }
     ],
@@ -250,25 +257,25 @@ exports.logout = (req, res) => {
 
 exports.findRegisterFromTo = (req, res) => {
   const from = moment(req.params.from);
-    const to = moment(req.params.to)
-    Customer.findAll({
-        where: {
-            createAt: {
-                [Op.between]: [from, to]
-                // [Op.between]: [new Date(from), new Date(to)]
-            }
-        },
-        order: [
-            ['createAt', 'ASC'],
-        ],
+  const to = moment(req.params.to)
+  Customer.findAll({
+    where: {
+      createAt: {
+        [Op.between]: [from, to]
+        // [Op.between]: [new Date(from), new Date(to)]
+      }
+    },
+    order: [
+      ['createAt', 'ASC'],
+    ],
+  })
+    .then(data => {
+      res.status(200).send(data);
     })
-        .then(data => {
-            res.status(200).send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while finding"
-            });
-        });
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while finding"
+      });
+    });
 }
