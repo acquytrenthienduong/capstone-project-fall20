@@ -26,7 +26,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
     Activity.findAll({
         order: [
-            ['history_activity_id', 'ASC'],
+            ['history_activity_id', 'DESC'],
         ],
     })
         .then(data => {
