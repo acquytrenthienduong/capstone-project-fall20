@@ -131,6 +131,7 @@ app.get('/loginAdmin', adminController.getLogin);
 app.post('/loginAdmin', adminController.postLogin);
 app.get('/logoutAdmin', adminController.logout);
 app.get('/searchCustomer/:account', customerController.SearchCustomerByAccount)
+app.get('/findRegister/:from/:to', customerController.findRegisterFromTo)
 
 //shift
 app.get('/shift', shiftController.findAll)

@@ -4,6 +4,7 @@ const Reservation = db.reservation;
 const SubService = db.subservice;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
+const moment = require('moment');
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -246,3 +247,28 @@ exports.logout = (req, res) => {
     res.status(200).send({ msg: "longout success" })
   });
 };
+
+exports.findRegisterFromTo = (req, res) => {
+  const from = moment(req.params.from);
+    const to = moment(req.params.to)
+    Customer.findAll({
+        where: {
+            createAt: {
+                [Op.between]: [from, to]
+                // [Op.between]: [new Date(from), new Date(to)]
+            }
+        },
+        order: [
+            ['createAt', 'ASC'],
+        ],
+    })
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while finding"
+            });
+        });
+}

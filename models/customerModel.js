@@ -22,6 +22,15 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         },
         createAt: {
             type: Sequelize.DATE
+        },
+        year: {
+            type: Sequelize.BIGINT
+        },
+        month: {
+            type: Sequelize.BIGINT
+        },
+        day: {
+            type: Sequelize.BIGINT
         }
     }, {
         sequelize,
