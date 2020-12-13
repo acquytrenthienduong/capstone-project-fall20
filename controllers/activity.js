@@ -24,7 +24,11 @@ exports.create = (req, res) => {
 
 
 exports.findAll = (req, res) => {
-    Activity.findAll({})
+    Activity.findAll({
+        order: [
+            ['history_activity_id', 'ASC'],
+        ],
+    })
         .then(data => {
             res.status(200).send(data)
         })
