@@ -61,19 +61,25 @@ exports.findAll = (req, res) => {
     Reservation.hasMany(Bill, { foreignKey: "reservation_reservation_id" })
     Bill.belongsTo(Reservation, { foreignKey: "reservation_reservation_id" })
 
-    SubService.hasMany(Bill, { foreignKey: 'sub_service_sub_service_id' })
-    Bill.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
+    SubService.hasOne(Reservation, { foreignKey: 'sub_service_sub_service_id' })
+    Reservation.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
+
+    // SubService.hasMany(Bill, { foreignKey: 'sub_service_sub_service_id' })
+    // Bill.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
 
     Bill.findAll({
         include: [{ model: SubService }, {
             model: Reservation,
             include: [
-                Customer
+                { model: Customer },
+                {
+                    model: SubService
+                }
             ]
         }],
 
         order: [
-            ['date', 'ASC'],
+            ['date', 'DESC'],
         ],
     })
         .then(data => {
