@@ -156,6 +156,7 @@ app.delete('/deleteStaff/:id', staffController.delete)
 //reservation
 app.get('/getAllReservationAccess', reservationController.findAllAccess)
 app.get('/getAllReservationNotAccess', reservationController.findAllNotAccess)
+app.get('/getAllReservationChange', reservationController.findAllChange)
 app.post('/updateReservation/:id', reservationController.update)
 app.post('/createNewReservation', reservationController.create)
 app.delete('/deleteReservation/:id', reservationController.delete)
