@@ -46,6 +46,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         },
         day: {
             type: Sequelize.BIGINT
+        },
+        reservation_time: {
+            type: Sequelize.TIME
         }
     }, {
         sequelize,

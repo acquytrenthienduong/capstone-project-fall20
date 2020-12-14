@@ -19,14 +19,15 @@ exports.create = (req, res) => {
     // Create a Tutorial
     const reservation = {
         customer_id: req.body.customer_id,
-        checkin_time: req.body.checkin_time,
+        // checkin_time: req.body.checkin_time,
         reservation_date: req.body.reservation_date,
         status: req.body.status,
         sub_service_sub_service_id: req.body.sub_service_sub_service_id,
         is_access: req.body.is_access,
         year: req.body.year,
         month: req.body.month,
-        day: req.body.day
+        day: req.body.day,
+        reservation_time: req.body.reservation_time
     };
     let dateRaw = new Date(req.body.reservation_date);
     let year = dateRaw.getFullYear();
