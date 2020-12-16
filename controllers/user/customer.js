@@ -24,7 +24,10 @@ exports.create = (req, res) => {
     email: req.body.email,
     gender: req.body.gender,
     createAt: new Date(),
-    name: req.body.name
+    name: req.body.name,
+    year: req.body.year,
+    month: req.body.month,
+    day: req.body.day
   };
 
   // Save Tutorial in the database
