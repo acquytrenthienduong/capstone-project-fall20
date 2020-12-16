@@ -165,6 +165,12 @@ app.get('/findReservation/:from/:to', reservationController.findReservationFromT
 
 //subService
 app.get('/getAllSubService/:type', subServiceController.findByType)
+app.get('/getAllServices', subServiceController.findAll)
+app.post('/addServices', subServiceController.create)
+app.delete('/deleteService/:id', subServiceController.delete)
+app.post('/updateService/:id', subServiceController.update)
+app.get('/getServiceByID/:id', subServiceController.findOne)
+
 
 //notification
 app.post('/createNotification/:id', notificationController.create)
