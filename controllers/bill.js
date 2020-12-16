@@ -122,12 +122,34 @@ exports.findToday = (req, res) => {
     let year = dateRaw.getFullYear();
     let month = dateRaw.getMonth() + 1;
     let dt = dateRaw.getDate();
+
+    Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
+    Reservation.belongsTo(Customer, { foreignKey: 'customer_id' })
+
+    Reservation.hasMany(Bill, { foreignKey: "reservation_reservation_id" })
+    Bill.belongsTo(Reservation, { foreignKey: "reservation_reservation_id" })
+
+    SubService.hasOne(Reservation, { foreignKey: 'sub_service_sub_service_id' })
+    Reservation.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
+
     Bill.findAll({
+        include: [{
+            model: Reservation,
+            include: [
+                { model: Customer },
+                {
+                    model: SubService
+                }
+            ]
+        }],
         where: {
             year: year,
             month: month,
             day: dt,
-        }
+        },
+        order: [
+            ['date', 'DESC'],
+        ],
     })
         .then(data => {
             res.status(200).send(data)
@@ -148,11 +170,33 @@ exports.findMonth = (req, res) => {
 
     console.log("year", year);
     console.log("month", month);
+
+
+    Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
+    Reservation.belongsTo(Customer, { foreignKey: 'customer_id' })
+
+    Reservation.hasMany(Bill, { foreignKey: "reservation_reservation_id" })
+    Bill.belongsTo(Reservation, { foreignKey: "reservation_reservation_id" })
+
+    SubService.hasOne(Reservation, { foreignKey: 'sub_service_sub_service_id' })
+    Reservation.belongsTo(SubService, { foreignKey: 'sub_service_sub_service_id' })
     Bill.findAll({
+        include: [{
+            model: Reservation,
+            include: [
+                { model: Customer },
+                {
+                    model: SubService
+                }
+            ]
+        }],
         where: {
             year: year,
             month: month,
-        }
+        },
+        order: [
+            ['date', 'DESC'],
+        ],
     })
         .then(data => {
             res.status(200).send(data)
