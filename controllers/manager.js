@@ -19,20 +19,33 @@ exports.create = (req, res) => {
         account: req.body.account,
         password: req.body.password,
         dob: req.body.dob,
-        gender: req.body.gender,
+        gender: 1,
     };
 
     // Save Tutorial in the database
-    Manager.create(manager)
-        .then((data) => {
-            res.send(data);
+    Manager.findAll({
+        where: {
+            account : manager.account
+        }
+        .then(data => {
+            if(data.length > 0){
+                res.status(201).send({ msg: "account exits" })
+            }
+            else{
+                Manager.create(manager)
+                .then((data) => {
+                    res.send(data);
+                })
+                .catch((err) => {
+                    res.status(500).send({
+                        message:
+                            err.message || "Some error occurred while creating the Manager.",
+                    });
+                });
+            }
         })
-        .catch((err) => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the Manager.",
-            });
-        });
+    })
+   
 };
 
 // Retrieve all Tutorials from the database.

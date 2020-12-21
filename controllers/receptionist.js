@@ -19,20 +19,33 @@ exports.create = (req, res) => {
         account: req.body.account,
         password: req.body.password,
         dob: req.body.dob,
-        shift_shift_id: req.body.shift_shift_id
+        shift_shift_id: 1
     };
 
     // Save Tutorial in the database
-    Receptionist.create(receptionist)
+    Receptionist.findAll({
+        where : {
+            account: receptionist.account
+        }
         .then(data => {
-            res.send(data);
+            if(data.length > 0){
+                res.status(201).send({ msg: "account exits" })
+            }
+            else{
+                Receptionist.create(receptionist)
+                .then(data => {
+                    res.send(data);
+                })
+                .catch(err => {
+                    res.status(500).send({
+                        message:
+                            err.message || "Some error occurred while creating the Receptionist."
+                    });
+                });
+            }
         })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the Receptionist."
-            });
-        });
+    })
+    
 };
 
 exports.update = (req, res) => {
