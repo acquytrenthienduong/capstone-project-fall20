@@ -25,27 +25,26 @@ exports.create = (req, res) => {
     // Save Tutorial in the database
     Manager.findAll({
         where: {
-            account : manager.account
-        }
-        .then(data => {
-            if(data.length > 0){
-                res.status(201).send({ msg: "account exits" })
-            }
-            else{
-                Manager.create(manager)
-                .then((data) => {
-                    res.send(data);
-                })
-                .catch((err) => {
-                    res.status(500).send({
-                        message:
-                            err.message || "Some error occurred while creating the Manager.",
-                    });
-                });
-            }
+            account: manager.account}
         })
-    })
-   
+        .then(data => {
+                if (data.length > 0) {
+                    res.status(201).send({ msg: "account exits" })
+                }
+                else {
+                    Manager.create(manager)
+                        .then((data) => {
+                            res.send(data);
+                        })
+                        .catch((err) => {
+                            res.status(500).send({
+                                message:
+                                    err.message || "Some error occurred while creating the Manager.",
+                            });
+                        });
+                }
+            })
+
 };
 
 // Retrieve all Tutorials from the database.

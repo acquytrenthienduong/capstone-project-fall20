@@ -25,8 +25,9 @@ exports.create = (req, res) => {
     // Save Tutorial in the database
     Receptionist.findAll({
         where : {
-            account: receptionist.account
-        }
+            account: receptionist.account}
+    })
+
         .then(data => {
             if(data.length > 0){
                 res.status(201).send({ msg: "account exits" })
@@ -44,8 +45,6 @@ exports.create = (req, res) => {
                 });
             }
         })
-    })
-    
 };
 
 exports.update = (req, res) => {
