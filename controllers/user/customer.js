@@ -20,9 +20,9 @@ exports.create = (req, res) => {
   }
 
   // Create a Tutorial
+  console.log("req.body.account", req.body.account);
 
-
-  bcrypt.hash(req.body.password, 10)
+  bcrypt.hash(req.body.password.toString(), 10)
     .then((hash) => {
       let customer = {
         account: req.body.account,
@@ -37,8 +37,10 @@ exports.create = (req, res) => {
       };
 
       Customer.create(customer)
-        .then(data => {
-          res.send(data);
+        .then(() => {
+          res.send({
+            message: 'Cảm ơn bạn rất nhiều. 🥰'
+          })
         })
         .catch(err => {
           res.status(500).send({
@@ -234,11 +236,11 @@ exports.changePassword = (req, res) => {
                 data.update({
                   password: hash
                 })
-                .then(() => {
-                  res.send({
+                  .then(() => {
+                    res.send({
                       message: 'Cập nhật mật khẩu thành công'
+                    })
                   })
-              })
                   .catch(err => {
                     res.status(500).send({
                       message: "Error updating Customer with id=" + id
@@ -246,6 +248,42 @@ exports.changePassword = (req, res) => {
                   });
               })
           }
+        })
+
+    })
+    .catch(err => {
+      return done(err);
+    });
+
+};
+
+exports.resetPassword = (req, res) => {
+  const id = req.params.id;
+  console.log('id', id);
+
+  Customer.findOne({ where: { customer_id: id } })
+    .then(data => {
+      if (!data) {
+        res.status(401).send({
+          message: "not found."
+        });
+      }
+
+      bcrypt.hash(req.body.newpassword, 10)
+        .then((hash) => {
+          data.update({
+            password: hash
+          })
+            .then(() => {
+              res.send({
+                message: 'Cập nhật mật khẩu thành công'
+              })
+            })
+            .catch(err => {
+              res.status(500).send({
+                message: "Error updating Customer with id=" + id
+              });
+            });
         })
 
     })

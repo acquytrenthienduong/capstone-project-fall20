@@ -114,6 +114,7 @@ app.post('/createNotification', notificationUserController.create)
 app.post('/UserSeenNoti/:id', notificationUserController.seenOne)
 app.post('/updateProfile/:id', customerController.updateById)
 app.post('/changePassword/:id', customerController.changePassword)
+app.post('/resetPassword/:id', customerController.resetPassword)
 app.get('/loadCustomer/:id', customerController.findOne)
 app.get('/loadCustomerByEmail/:email', customerController.findByEmail)
 //---------------------------------------------------------------------------------//
