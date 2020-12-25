@@ -113,6 +113,7 @@ app.get('/findNotificationForCustomer/:id', notificationUserController.findAllNo
 app.post('/createNotification', notificationUserController.create)
 app.post('/UserSeenNoti/:id', notificationUserController.seenOne)
 app.post('/updateProfile/:id', customerController.updateById)
+app.post('/changePassword/:id', customerController.changePassword)
 app.get('/loadCustomer/:id', customerController.findOne)
 app.get('/loadCustomerByEmail/:email', customerController.findByEmail)
 //---------------------------------------------------------------------------------//

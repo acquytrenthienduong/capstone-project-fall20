@@ -96,15 +96,15 @@ passport.use('customer-local', new LocalStrategy('local', (account, password, do
             }
             console.log("data.password", data.password)
             console.log("password", password)
-            bcrypt.compare(password,data.password )
-            .then((valid) => {
-                if (!valid) {
-                    return done(null, false, { msg: 'Invalid email or password.' });
-                }
-                else{
-                    return done(null, data);
-                }
-    })
+            bcrypt.compare(password, data.password)
+                .then((valid) => {
+                    if (!valid) {
+                        return done(null, false, { msg: 'Invalid email or password.' });
+                    }
+                    else {
+                        return done(null, data);
+                    }
+                })
             // if (data.password === password) {
 
 

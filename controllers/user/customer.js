@@ -20,8 +20,8 @@ exports.create = (req, res) => {
   }
 
   // Create a Tutorial
- 
-  
+
+
   bcrypt.hash(req.body.password, 10)
     .then((hash) => {
       let customer = {
@@ -37,19 +37,19 @@ exports.create = (req, res) => {
       };
 
       Customer.create(customer)
-    .then(data => {
-      res.send(data);
+        .then(data => {
+          res.send(data);
+        })
+        .catch(err => {
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while creating the customer."
+          });
+        });
     })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the customer."
-      });
-    });
-  })
 
   // Save Tutorial in the database
-  
+
 };
 
 // Retrieve all Tutorials from the database.
@@ -207,6 +207,52 @@ exports.updateById = (req, res) => {
         message: "Error updating Customer with id=" + id
       });
     });
+};
+
+exports.changePassword = (req, res) => {
+  const id = req.params.id;
+  console.log('id', id);
+
+  Customer.findOne({ where: { customer_id: id } })
+    .then(data => {
+      if (!data) {
+        res.status(401).send({
+          message: "not found."
+        });
+      }
+
+      bcrypt.compare(req.body.oldpassword, data.password)
+        .then((valid) => {
+          if (!valid) {
+            res.status(402).send({
+              message: "old password incorrect."
+            });
+          }
+          else {
+            bcrypt.hash(req.body.newpassword, 10)
+              .then((hash) => {
+                data.update({
+                  password: hash
+                })
+                .then(() => {
+                  res.send({
+                      message: 'Cập nhật mật khẩu thành công'
+                  })
+              })
+                  .catch(err => {
+                    res.status(500).send({
+                      message: "Error updating Customer with id=" + id
+                    });
+                  });
+              })
+          }
+        })
+
+    })
+    .catch(err => {
+      return done(err);
+    });
+
 };
 
 // Delete a Tutorial with the specified id in the request
