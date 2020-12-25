@@ -6,6 +6,8 @@ const Customer = db.customer;
 const Manager = db.manager;
 const Admin = db.admin;
 const Receptionist = db.receptionist;
+const bcrypt = require('bcrypt')
+
 
 function sessionConstructor(userId, userGroup, details, role) {
     this.userId = userId;
@@ -92,12 +94,25 @@ passport.use('customer-local', new LocalStrategy('local', (account, password, do
             if (!data) {
                 return done(null, false, { msg: `username ${account} not found.` });
             }
-            if (data.password === password) {
-                return done(null, data);
-            }
-            else {
-                return done(null, false, { msg: 'Invalid email or password.' });
-            }
+            console.log("data.password", data.password)
+            console.log("password", password)
+            bcrypt.compare(password,data.password )
+            .then((valid) => {
+                if (!valid) {
+                    return done(null, false, { msg: 'Invalid email or password.' });
+                }
+                else{
+                    return done(null, data);
+                }
+    })
+            // if (data.password === password) {
+
+
+            //     return done(null, data);
+            // }
+            // else {
+            //     return done(null, false, { msg: 'Invalid email or password.' });
+            // }
         })
         .catch(err => {
             return done(err);

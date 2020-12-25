@@ -6,6 +6,8 @@ const Op = db.Sequelize.Op;
 const passport = require('passport');
 const moment = require('moment');
 const Bill = db.bill;
+const bcrypt = require('bcrypt')
+
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -18,20 +20,23 @@ exports.create = (req, res) => {
   }
 
   // Create a Tutorial
-  let customer = {
-    account: req.body.account,
-    password: req.body.password,
-    email: req.body.email,
-    gender: req.body.gender,
-    createAt: new Date(),
-    name: req.body.name,
-    year: req.body.year,
-    month: req.body.month,
-    day: req.body.day
-  };
+ 
+  
+  bcrypt.hash(req.body.password, 10)
+    .then((hash) => {
+      let customer = {
+        account: req.body.account,
+        password: hash,
+        email: req.body.email,
+        gender: req.body.gender,
+        createAt: new Date(),
+        name: req.body.name,
+        year: req.body.year,
+        month: req.body.month,
+        day: req.body.day
+      };
 
-  // Save Tutorial in the database
-  Customer.create(customer)
+      Customer.create(customer)
     .then(data => {
       res.send(data);
     })
@@ -41,6 +46,10 @@ exports.create = (req, res) => {
           err.message || "Some error occurred while creating the customer."
       });
     });
+  })
+
+  // Save Tutorial in the database
+  
 };
 
 // Retrieve all Tutorials from the database.
@@ -232,7 +241,7 @@ exports.postLogin = (req, res, next) => {
   }
 
   passport.authenticate('customer-local', { session: false }, (err, customer, info) => {
-    console.log('1')
+
     if (err) { return next(err); }
     if (!customer) {
       req.flash('errors', info);
