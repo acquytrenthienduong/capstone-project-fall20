@@ -46,6 +46,7 @@ app.use(expressSession({ secret: 'keyboard cat' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//cors
 app.use(cors());
 
 app.use((req, res, next) => {
@@ -69,19 +70,6 @@ app.use('/posts', (req, res) => {
 });
 db.sequelize.sync();
 
-//schedule
-// app.post('/schedule', (req, res) => {
-//     const { body } = req;
-//     const data = {
-//         ...body,
-//         // set the selected property of the body to true
-//     };
-//     // console.log('data', data);
-//     // trigger a new-entry event on the vote-channel
-//     pusher.trigger('schedule', 'new-event', data);
-//     res.json(data);
-// });
-
 app.get('/schedule', (req, res) => {
     res.json('hello');
 });
@@ -95,8 +83,6 @@ app.get('/post', (req, res) => {
     res.send('post');
 });
 
-// app routes
-
 //customer
 app.get('/loginCustomer', customerController.getLogin);
 app.post('/loginCustomer', customerController.postLogin);
@@ -106,23 +92,24 @@ app.post('/updateCustomer/:id', customerController.updateById);
 app.get('/customer', customerController.findAll)
 app.get('/findAllByAccount/:account', customerController.findAllByAccount)
 app.get('/findOne/:account', customerController.findByAccount)
-app.post('/createNewReservationForUser', reservationUserController.create)
-app.get('/findAllReservationOfCustomer/:id', reservationUserController.findAllReservationOfCustomer)
-app.get('/subServiceFindOne/:id', subServiceController.findOne)
-app.get('/findNotificationForCustomer/:id', notificationUserController.findAllNotificationForCustomer)
-app.post('/createNotification', notificationUserController.create)
-app.post('/UserSeenNoti/:id', notificationUserController.seenOne)
 app.post('/updateProfile/:id', customerController.updateById)
 app.post('/changePassword/:id', customerController.changePassword)
 app.post('/resetPassword/:id', customerController.resetPassword)
 app.get('/loadCustomer/:id', customerController.findOne)
 app.get('/loadCustomerByEmail/:email', customerController.findByEmail)
-//---------------------------------------------------------------------------------//
-//manager
-app.get('/loginManager', managerController.getLogin);
-app.post('/loginManager', managerController.postLogin);
-app.get('/logoutManager', managerController.logout);
+app.get('/searchCustomer/:account', customerController.SearchCustomerByAccount)
+app.get('/findRegister/:from/:to', customerController.findRegisterFromTo)
 app.get('/findAllCustomer', customerController.findAll);
+
+//reservationUser
+app.post('/createNewReservationForUser', reservationUserController.create)
+app.get('/findAllReservationOfCustomer/:id', reservationUserController.findAllReservationOfCustomer)
+
+//notificationUser
+app.get('/findNotificationForCustomer/:id', notificationUserController.findAllNotificationForCustomer)
+app.post('/createNotification', notificationUserController.create)
+app.post('/UserSeenNoti/:id', notificationUserController.seenOne)
+
 //receptionist
 app.get('/loginReceptionist', receptionistController.getLogin);
 app.post('/loginReceptionist', receptionistController.postLogin);
@@ -132,21 +119,21 @@ app.get('/logoutReceptionist', receptionistController.logout);
 app.get('/loginAdmin', adminController.getLogin);
 app.post('/loginAdmin', adminController.postLogin);
 app.get('/logoutAdmin', adminController.logout);
-app.get('/searchCustomer/:account', customerController.SearchCustomerByAccount)
-app.get('/findRegister/:from/:to', customerController.findRegisterFromTo)
 
 //shift
 app.get('/shift', shiftController.findAll)
 app.get('/getShiftByID/:id', shiftController.findOne)
 
 //manager
-// app.get('/customer', customerController.findAll)
 app.get('/manager', managerController.findAll)
 app.get('/getManagerByID/:id', managerController.findOne)
 app.delete('/manager/:id', managerController.delete)
 app.post('/addManager', managerController.create)
 app.post('/updateManager/:id', managerController.update)
 app.get('/find/:gender', managerController.findByGender)
+app.get('/loginManager', managerController.getLogin);
+app.post('/loginManager', managerController.postLogin);
+app.get('/logoutManager', managerController.logout);
 
 //staff
 app.post('/addStaff', staffController.create)
@@ -172,6 +159,7 @@ app.post('/addServices', subServiceController.create)
 app.delete('/deleteService/:id', subServiceController.delete)
 app.post('/updateService/:id', subServiceController.update)
 app.get('/getServiceByID/:id', subServiceController.findOne)
+app.get('/subServiceFindOne/:id', subServiceController.findOne)
 
 
 //notification

@@ -6,7 +6,7 @@ const Customer = db.customer;
 const SubService = db.subservice;
 
 const moment = require('moment')
-
+// create bill 
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.total_money) {
@@ -40,7 +40,6 @@ exports.create = (req, res) => {
             else {
                 Bill.create(bill)
                     .then((data) => {
-                        console.log('data', data);
                         res.send(data);
                     })
                     .catch((err) => {
@@ -52,7 +51,7 @@ exports.create = (req, res) => {
             }
         })
 };
-
+// get all bill
 exports.findAll = (req, res) => {
 
     Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
@@ -92,7 +91,7 @@ exports.findAll = (req, res) => {
             });
         })
 }
-
+// get bill in time
 exports.findAllInFromTo = (req, res) => {
     const from = moment(req.params.from);
     const to = moment(req.params.to)
@@ -116,7 +115,7 @@ exports.findAllInFromTo = (req, res) => {
             });
         })
 }
-
+// get bill today
 exports.findToday = (req, res) => {
     let dateRaw = new Date();
     let year = dateRaw.getFullYear();
@@ -161,16 +160,12 @@ exports.findToday = (req, res) => {
             });
         })
 }
-
+// get bill in month
 exports.findMonth = (req, res) => {
     let dateRaw = new Date();
     let year = dateRaw.getFullYear();
     let month = dateRaw.getMonth() + 1;
     let dt = dateRaw.getDate();
-
-    console.log("year", year);
-    console.log("month", month);
-
 
     Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
     Reservation.belongsTo(Customer, { foreignKey: 'customer_id' })

@@ -20,8 +20,7 @@ exports.findOne = (req, res) => {
 
 // Create and Save a new services
 exports.create = (req, res) => {
-  console.log("sssssss", req.body);
-  // Create a Tutorial
+  // Create a service
   const service = {
     name: req.body.name,
     time: req.body.time,
@@ -48,7 +47,6 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   SubService.findAll({})
     .then((data) => {
-      console.log("data", data);
       res.send(data);
     })
     .catch((err) => {
@@ -59,9 +57,8 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Update a Tutorial by the id in the request
+// Update a service by the id in the request
 exports.update = (req, res) => {
-  console.log("req.params.id", req.params.id);
   const id = req.params.id;
 
   SubService.update(req.body, {
@@ -85,14 +82,13 @@ exports.update = (req, res) => {
     });
 };
 
-// Delete a Tutorial with the specified id in the request
+// Delete a service with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
   SubService.destroy({
     where: { sub_service_id: id },
   })
     .then((data) => {
-      console.log("data", data);
       if (data == 1) {
         res.status(200).send({
           message: "delete success",
@@ -105,7 +101,7 @@ exports.delete = (req, res) => {
       });
     });
 };
-
+// get service by type
 exports.findByType = (req, res) => {
   const type = req.params.type;
   SubService.findAll({
@@ -114,7 +110,6 @@ exports.findByType = (req, res) => {
     },
   })
     .then((data) => {
-      // console.log("data", data)
       res.send(data);
     })
     .catch((err) => {
@@ -123,7 +118,7 @@ exports.findByType = (req, res) => {
       });
     });
 };
-
+// get one service
 exports.findOne = (req, res) => {
   const id = req.params.id;
   SubService.findOne({
@@ -132,7 +127,6 @@ exports.findOne = (req, res) => {
     },
   })
     .then((data) => {
-      // console.log("data", data)
       res.send(data);
     })
     .catch((err) => {

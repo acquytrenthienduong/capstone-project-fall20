@@ -4,7 +4,7 @@ const Shift = db.shift;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 const { shift } = require("../models/index");
-
+// create Receptionist
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.account) {
@@ -14,7 +14,7 @@ exports.create = (req, res) => {
         return;
     }
 
-    // Create a Tutorial
+    // Create a Receptionist
     const receptionist = {
         account: req.body.account,
         password: req.body.password,
@@ -22,7 +22,7 @@ exports.create = (req, res) => {
         shift_shift_id: 1
     };
 
-    // Save Tutorial in the database
+    // Save Receptionist in the database
     Receptionist.findAll({
         where : {
             account: receptionist.account}
@@ -46,9 +46,8 @@ exports.create = (req, res) => {
             }
         })
 };
-
+// update information of Receptionist
 exports.update = (req, res) => {
-    console.log('req.params.receptionist_id', req.params.id)
     const id = req.params.id;
 
     Receptionist.update(req.body, {
@@ -72,13 +71,13 @@ exports.update = (req, res) => {
         });
 };
 
+// get all Receptionist
 exports.findAll = (req, res) => {
     Shift.hasMany(Receptionist, { foreignKey: 'shift_shift_id' })
     Receptionist.belongsTo(Shift, { foreignKey: 'shift_shift_id' })
 
     Receptionist.findAll({ include: [Shift] })
         .then(data => {
-            console.log("data", data)
             res.send(data);
         })
         .catch(err => {
@@ -88,6 +87,8 @@ exports.findAll = (req, res) => {
             });
         });
 };
+
+// get one Receptionist
 exports.findOne = (req, res) => {
     Shift.hasMany(Receptionist, { foreignKey: 'shift_shift_id' })
     Receptionist.belongsTo(Shift, { foreignKey: 'shift_shift_id' })
@@ -103,14 +104,13 @@ exports.findOne = (req, res) => {
             });
         });
 };
-// Delete a Tutorial with the specified id in the request
+// Delete a Receptionist with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
     Receptionist.destroy({
         where: { receptionist_id: id },
     })
         .then((data) => {
-            console.log("data", data);
             if (data == 1) {
                 res.status(200).send({
                     message: "delete success",
@@ -125,8 +125,8 @@ exports.delete = (req, res) => {
         });
 };
 
+// get login status
 exports.getLogin = (req, res) => {
-    console.log("get login receptionist", req.user);
     if (req.user instanceof Receptionist) {
         res.status(200).send({ msg: "da dang nhap role Receptionist" });
     } else {
@@ -134,8 +134,8 @@ exports.getLogin = (req, res) => {
     }
 };
 
+// login for receptionist
 exports.postLogin = (req, res, next) => {
-    console.log("Receptionist json", req.body);
     const validationErrors = [];
     if (!req.body.username) {
         validationErrors.push({ mes: "empty username" });
@@ -149,14 +149,12 @@ exports.postLogin = (req, res, next) => {
         if (err) {
             return next(err);
         }
-        console.log("1", receptionist);
         if (!receptionist) {
             // req.flash("errors", info);
             // return res.status(500).send({ msg: "login fail" })
             return res.redirect("/login");
         }
         req.logIn(receptionist, (err) => {
-            console.log("2", receptionist)
             if (err) {
                 return next(err);
             }
@@ -168,6 +166,7 @@ exports.postLogin = (req, res, next) => {
     })(req, res, next);
 };
 
+// logout for receptionist
 exports.logout = (req, res) => {
     req.logout();
     req.session.destroy((err) => {

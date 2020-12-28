@@ -16,7 +16,6 @@ function sessionConstructor(userId, userGroup, details, role) {
 }
 
 passport.serializeUser((user, done) => {
-    // console.log('user', user);
     let userGroup = "Customer";
     let userId = null;
     if (user instanceof Customer) {
@@ -36,7 +35,6 @@ passport.serializeUser((user, done) => {
         userId = user.receptionist_id
     }
     let session = new sessionConstructor(userId, userGroup, "");
-    // console.log('session', session);
     done(null, session)
 });
 
@@ -94,8 +92,6 @@ passport.use('customer-local', new LocalStrategy('local', (account, password, do
             if (!data) {
                 return done(null, false, { msg: `username ${account} not found.` });
             }
-            console.log("data.password", data.password)
-            console.log("password", password)
             bcrypt.compare(password, data.password)
                 .then((valid) => {
                     if (!valid) {
@@ -105,14 +101,7 @@ passport.use('customer-local', new LocalStrategy('local', (account, password, do
                         return done(null, data);
                     }
                 })
-            // if (data.password === password) {
 
-
-            //     return done(null, data);
-            // }
-            // else {
-            //     return done(null, false, { msg: 'Invalid email or password.' });
-            // }
         })
         .catch(err => {
             return done(err);
@@ -120,7 +109,6 @@ passport.use('customer-local', new LocalStrategy('local', (account, password, do
 }));
 
 passport.use('manager-local', new LocalStrategy('local', (account, password, done) => {
-    console.log('account', account);
     Manager.findOne({ where: { account: account.toLowerCase() } })
         .then(data => {
             if (!data) {
@@ -139,7 +127,6 @@ passport.use('manager-local', new LocalStrategy('local', (account, password, don
 }));
 
 passport.use('admin-local', new LocalStrategy('local', (username, password, done) => {
-    console.log('username', username);
     Admin.findOne({ where: { username: username.toLowerCase() } })
         .then(data => {
             if (!data) {
@@ -158,7 +145,6 @@ passport.use('admin-local', new LocalStrategy('local', (username, password, done
 }));
 
 passport.use('receptionist-local', new LocalStrategy('local', (username, password, done) => {
-    console.log('username', username);
     Receptionist.findOne({ where: { account: username.toLowerCase() } })
         .then(data => {
             if (!data) {

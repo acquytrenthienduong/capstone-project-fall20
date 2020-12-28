@@ -3,7 +3,7 @@ const Reservation = db.reservation;
 const Customer = db.customer;
 const SubService = db.subservice;
 
-// Create and Save a new Tutorial
+// Create and Save a new Reservation
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.customer_id) {
@@ -13,7 +13,7 @@ exports.create = (req, res) => {
         return;
     }
 
-    // Create a Tutorial
+    // Create a Reservation
     const reservation = {
         customer_id: req.body.customer_id,
         reservation_time: req.body.reservation_time,
@@ -29,10 +29,9 @@ exports.create = (req, res) => {
     let month = dateRaw.getMonth() + 1;
     let dt = dateRaw.getDate();
     var temp = reservation.checkin_time.split(':');
-    // console.log('from', temp);
     let from = parseInt(temp[0], 10) + ":" + "00" + ":" + "00";
     let to = parseInt(temp[0], 10) + 1 + ":" + "00" + ":" + "00";
-    // Save Tutorial in the database
+    // Save Reservation in the database
     Reservation.findAll({
         where: {
             year: year,
@@ -71,7 +70,7 @@ exports.create = (req, res) => {
         });
 };
 
-// Retrieve all Tutorials from the database.
+// get all reservation of customer
 exports.findAllReservationOfCustomer = (req, res) => {
     const id = req.params.id;
     Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
@@ -88,7 +87,6 @@ exports.findAllReservationOfCustomer = (req, res) => {
         ],
     })
         .then(data => {
-            // console.log("data", data)
             res.send(data);
         })
         .catch(err => {
@@ -99,6 +97,7 @@ exports.findAllReservationOfCustomer = (req, res) => {
         });
 };
 
+// get all reservation not access of customer
 exports.findAllNotAccess = (req, res) => {
     Customer.hasMany(Reservation, { foreignKey: 'customer_id' })
     Reservation.belongsTo(Customer, { foreignKey: 'customer_id' })
@@ -111,7 +110,6 @@ exports.findAllNotAccess = (req, res) => {
         where: { is_access: 1 }
     })
         .then(data => {
-            // console.log("data", data)
             res.send(data);
         })
         .catch(err => {
@@ -122,7 +120,7 @@ exports.findAllNotAccess = (req, res) => {
         });
 };
 
-// Find a single Tutorial with an id
+// get one reservation
 exports.findOne = (req, res) => {
     const id = req.params.id
 
@@ -137,11 +135,9 @@ exports.findOne = (req, res) => {
         });
 };
 
-// Update a Tutorial by the id in the request
+// update reservation
 exports.update = (req, res) => {
-    // console.log('req.params.id', req.params.id)
     const id = req.params.id;
-    console.log('req.body', req.body);
     Reservation.update(req.body, {
         where: { reservation_id: id }
     })
@@ -163,7 +159,7 @@ exports.update = (req, res) => {
         });
 };
 
-// Delete a Tutorial with the specified id in the request
+// remove reservation
 exports.delete = (req, res) => {
     const id = req.params.id;
 

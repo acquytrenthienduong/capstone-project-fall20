@@ -4,17 +4,9 @@ const Shift = db.shift;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 // const { staff } = require("../models/index");
-
+// create staff
 exports.create = (req, res) => {
-    // Validate request
-    // if (!req.body.) {
-    //     res.status(400).send({
-    //         message: "account can not be empty!"
-    //     });
-    //     return;
-    // }
-
-    // Create a Tutorial
+    // Create a Staff
     const staff = {
         dob: req.body.dob,
         gender: req.body.gender,
@@ -33,6 +25,7 @@ exports.create = (req, res) => {
             });
         });
 };
+// get staff by id
 exports.findByStaff_id = (req, res) => {
     const staff_id = req.params.staff_id
     if (!req.body.staff_id) {
@@ -53,6 +46,7 @@ exports.findByStaff_id = (req, res) => {
             });
         });
 };
+// get all staff
 exports.findAll = (req, res) => {
     // join Shift and staff table, as staff id is main
     Shift.hasMany(Staff, { foreignKey: 'shift_shift_id' })
@@ -60,7 +54,6 @@ exports.findAll = (req, res) => {
 
     Staff.findAll({ include: [Shift] })
         .then(data => {
-            console.log("data", data)
             res.send(data);
         })
         .catch(err => {
@@ -70,6 +63,7 @@ exports.findAll = (req, res) => {
             });
         });
 };
+// update information of staff
 exports.update = (req, res) => {
     const staff_id = req.params.staff_id;
 
@@ -94,7 +88,7 @@ exports.update = (req, res) => {
         });
 };
 
-// Find a single staff with an id
+// get one staff
 exports.findOne = (req, res) => {
     Shift.hasMany(Staff, { foreignKey: 'shift_shift_id' })
     Staff.belongsTo(Shift, { foreignKey: 'shift_shift_id' })
@@ -110,14 +104,13 @@ exports.findOne = (req, res) => {
             });
         });
 };
-// Delete a Tutorial with the specified id in the request
+// Delete a Staff with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
     Staff.destroy({
         where: { staff_id: id },
     })
         .then((data) => {
-            console.log("data", data);
             if (data == 1) {
                 res.status(200).send({
                     message: "delete success",

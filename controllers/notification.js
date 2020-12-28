@@ -3,6 +3,7 @@ const Notification = db.notification;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 
+// create Notification
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.content) {
@@ -13,14 +14,14 @@ exports.create = (req, res) => {
     }
     let id = req.params.id;
 
-    // Create a Tutorial
+    // Create a Notification
     const notification = {
         notification_type: 1,
         content: req.body.content,
         customer_customer_id: id,
     };
 
-    // Save Tutorial in the database
+    // Save Notification in the database
     Notification.create(notification)
         .then(data => {
             res.send(data);
@@ -32,7 +33,7 @@ exports.create = (req, res) => {
             });
         });
 };
-
+// get all notification for manager, receptionist
 exports.findAllNotificationForManager = (req, res) => {
     Notification.findAll({
         where: {
@@ -49,15 +50,13 @@ exports.findAllNotificationForManager = (req, res) => {
             });
         })
 }
-
+// update notification status
 exports.seenNoti = (req, res) => {
     const id = req.params.id;
-    // console.log('req.body', req.body);
     Notification.update(req.body.noti, {
         where: { notification_id: id }
     })
         .then(num => {
-            console.log(num);
             if (num == 1) {
                 res.send({
                     message: "Notification was updated successfully."

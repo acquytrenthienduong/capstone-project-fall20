@@ -2,7 +2,7 @@ const db = require("../models/index");
 const Shift = db.shift;
 const Op = db.Sequelize.Op;
 const passport = require("passport");
-
+// create a shift
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.shift_name) {
@@ -12,12 +12,12 @@ exports.create = (req, res) => {
       return;
   }
 
-  // Create a Tutorial
+  // Create a Shift
   const shift = {
     shift_name: req.body,
   };
 
-  // Save Tutorial in the database
+  // Save Shift in the database
   Shift.create(shift)
     .then((data) => {
       res.send(data);
@@ -34,7 +34,6 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   Shift.findAll()
     .then((data) => {
-      console.log("data", data);
       res.send(data);
     })
     .catch((err) => {

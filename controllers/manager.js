@@ -3,9 +3,8 @@ const Manager = db.manager;
 const Op = db.Sequelize.Op;
 const passport = require("passport");
 
-// Create and Save a new Tutorial
+// Create and Save a new Manager
 exports.create = (req, res) => {
-    console.log('sssssss', req.body);
     // Validate request
     if (!req.body.account) {
         res.status(400).send({
@@ -14,7 +13,7 @@ exports.create = (req, res) => {
         return;
     }
 
-    // Create a Tutorial
+    // Create a Manager
     const manager = {
         account: req.body.account,
         password: req.body.password,
@@ -22,7 +21,7 @@ exports.create = (req, res) => {
         gender: 1,
     };
 
-    // Save Tutorial in the database
+    // Save Manager in the database
     Manager.findAll({
         where: {
             account: manager.account}
@@ -47,11 +46,10 @@ exports.create = (req, res) => {
 
 };
 
-// Retrieve all Tutorials from the database.
+// Retrieve all Manager from the database.
 exports.findAll = (req, res) => {
     Manager.findAll()
         .then((data) => {
-            // console.log("data", data)
             res.send(data);
         })
         .catch((err) => {
@@ -62,7 +60,7 @@ exports.findAll = (req, res) => {
         });
 };
 
-// Find a single Tutorial with an id
+// Find a single Manager with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
@@ -77,7 +75,7 @@ exports.findOne = (req, res) => {
         });
 };
 
-// Find a single Tutorial with an id
+// Find a single Manager with an id
 exports.findByGender = (req, res) => {
     const gender = req.params.gender;
     Manager.findAll({
@@ -93,9 +91,8 @@ exports.findByGender = (req, res) => {
         });
 };
 
-// Update a Tutorial by the id in the request
+// Update a Manager by the id in the request
 exports.update = (req, res) => {
-    console.log("req.params.id", req.params.id);
     const id = req.params.id;
 
     Manager.update(req.body, {
@@ -119,14 +116,13 @@ exports.update = (req, res) => {
         });
 };
 
-// Delete a Tutorial with the specified id in the request
+// Delete a Manager with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
     Manager.destroy({
         where: { manager_id: id },
     })
         .then((data) => {
-            console.log("data", data);
             if (data == 1) {
                 res.status(200).send({
                     message: "delete success",
@@ -141,12 +137,11 @@ exports.delete = (req, res) => {
         });
 };
 
-// Delete all Tutorials from the database.
+// Delete all Manager from the database.
 exports.deleteAll = (req, res) => { };
 // Search
 
 exports.searchGender = (req, res) => {
-    console.log("req.params.gender", req.params.gender);
     const gender = req.params.gender;
 
     Manager.searchGender(req.body, {
@@ -155,7 +150,6 @@ exports.searchGender = (req, res) => {
         // }
     })
         .then((data) => {
-            // console.log("data", data)
             if (gender == 1) {
                 res.send(data);
             }
@@ -170,8 +164,8 @@ exports.searchGender = (req, res) => {
 // Find all published Tutorials
 exports.findAllPublished = (req, res) => { };
 
+// get login status
 exports.getLogin = (req, res) => {
-    console.log("get login manager", req.user);
     if (req.user instanceof Manager) {
         res.status(200).send({ msg: "da dang nhap role manage" });
     } else {
@@ -179,8 +173,8 @@ exports.getLogin = (req, res) => {
     }
 };
 
+// login for manager
 exports.postLogin = (req, res, next) => {
-    console.log("req", req.body);
     const validationErrors = [];
     if (!req.body.username) {
         validationErrors.push({ mes: "empty username" });
@@ -194,25 +188,23 @@ exports.postLogin = (req, res, next) => {
         if (err) {
             return next(err);
         }
-        console.log("1", manager);
         if (!manager) {
             // req.flash("errors", info);
             // return res.status(500).send({ msg: "login fail" })
             return res.redirect("/login");
         }
         req.logIn(manager, (err) => {
-            console.log("2", manager)
             if (err) {
                 return next(err);
             }
             //req.flash("success", { msg: "Success! You are logged in." });
-            // console.log('(req.session.returnTo', req.session.returnTo)
             // res.redirect(req.session.returnTo || "/");
             res.status(200).send(manager)
         });
     })(req, res, next);
 };
 
+// logout for manager
 exports.logout = (req, res) => {
     req.logout();
     req.session.destroy((err) => {

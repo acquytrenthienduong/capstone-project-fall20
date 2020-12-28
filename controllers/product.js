@@ -5,7 +5,6 @@ const Product = db.product;
 
 // create a product
 exports.addProduct = (req, res) => {
-  console.log(req.file);
   const product = new Product({
     productName: req.body.productName,
     img_url: req.file.path,
@@ -14,13 +13,11 @@ exports.addProduct = (req, res) => {
   product
     .save()
     .then((result) => {
-      console.log(result);
       res.status(201).json({
         message: "Created product successfully",
       });
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).json({
         error: err,
       });
@@ -31,7 +28,6 @@ exports.addProduct = (req, res) => {
 exports.findAll = (req, res) => {
   Product.findAll()
   .then((data) => {
-      console.log("data", data)
       res.send(data);
   })
   .catch((err) => {
@@ -59,7 +55,6 @@ exports.findOne = (req, res) => {
 
 // Update a Product by the id in the request
 exports.update = (req, res) => {
-  console.log("req.params.id", req.params.id);
   const id = req.params.id;
 
   Product.update(req.body, {
@@ -90,7 +85,6 @@ exports.delete = (req, res) => {
     where: { product_id: id },
   })
     .then((data) => {
-      console.log("data", data);
       if (data == 1) {
         res.status(200).send({
           message: "delete success",

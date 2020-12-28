@@ -9,7 +9,7 @@ const Bill = db.bill;
 const bcrypt = require('bcrypt')
 
 
-// Create and Save a new Tutorial
+// Create and Save a new Customer
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.account) {
@@ -20,7 +20,6 @@ exports.create = (req, res) => {
   }
 
   // Create a Tutorial
-  console.log("req.body.account", req.body.account);
 
   bcrypt.hash(req.body.password.toString(), 10)
     .then((hash) => {
@@ -54,11 +53,10 @@ exports.create = (req, res) => {
 
 };
 
-// Retrieve all Tutorials from the database.
+// get all customer
 exports.findAll = (req, res) => {
   Customer.findAll({})
     .then(data => {
-      // console.log("data", data)
       res.send(data);
     })
     .catch(err => {
@@ -68,7 +66,7 @@ exports.findAll = (req, res) => {
       });
     });
 };
-
+// find all customer incluce input
 exports.findAllByAccount = (req, res) => {
   const account = req.params.account
   Customer.findAll({
@@ -79,7 +77,6 @@ exports.findAllByAccount = (req, res) => {
     }
   })
     .then(data => {
-      // console.log("data", data)
       res.send(data);
     })
     .catch(err => {
@@ -89,7 +86,7 @@ exports.findAllByAccount = (req, res) => {
       });
     });
 };
-
+// find customer by Account
 exports.SearchCustomerByAccount = (req, res) => {
   const account = req.params.account
 
@@ -123,7 +120,6 @@ exports.SearchCustomerByAccount = (req, res) => {
     }
   })
     .then(data => {
-      // console.log("data", data)
       res.send(data);
     })
     .catch(err => {
@@ -134,7 +130,7 @@ exports.SearchCustomerByAccount = (req, res) => {
     });
 };
 
-// Find a single Tutorial with an id
+// find customer by id
 exports.findOne = (req, res) => {
   const id = req.params.id
   Customer.findByPk(id)
@@ -147,7 +143,7 @@ exports.findOne = (req, res) => {
       });
     });
 };
-
+// find customer by account
 exports.findByAccount = (req, res) => {
   let account = req.params.account
   Customer.findOne({ where: { account: account } })
@@ -165,7 +161,7 @@ exports.findByAccount = (req, res) => {
       });
     });
 };
-
+// find customer by email
 exports.findByEmail = (req, res) => {
   let email = req.params.email
   Customer.findOne({ where: { email: email } })
@@ -184,11 +180,9 @@ exports.findByEmail = (req, res) => {
     });
 };
 
-// Update a Tutorial by the id in the request
+// Update a custoemr by the id in the request
 exports.updateById = (req, res) => {
   const id = req.params.id;
-  console.log('id', id);
-  console.log('req.body', req.body.customer);
 
   Customer.update(req.body.customer, {
     where: { customer_id: id }
@@ -210,10 +204,9 @@ exports.updateById = (req, res) => {
       });
     });
 };
-
+// update password for customer
 exports.changePassword = (req, res) => {
   const id = req.params.id;
-  console.log('id', id);
 
   Customer.findOne({ where: { customer_id: id } })
     .then(data => {
@@ -256,10 +249,9 @@ exports.changePassword = (req, res) => {
     });
 
 };
-
+// reset password for customer
 exports.resetPassword = (req, res) => {
   const id = req.params.id;
-  console.log('id', id);
 
   Customer.findOne({ where: { customer_id: id } })
     .then(data => {
@@ -293,7 +285,7 @@ exports.resetPassword = (req, res) => {
 
 };
 
-// Delete a Tutorial with the specified id in the request
+// Delete a Customer with the specified id in the request
 exports.delete = (req, res) => {
 
 };
@@ -302,9 +294,8 @@ exports.delete = (req, res) => {
 exports.deleteAll = (req, res) => {
 
 };
-
+// get customer login status
 exports.getLogin = (req, res) => {
-  console.log("get login customer", req.session.passport)
   if (req.user instanceof Customer) {
     res.status(200).send({ msg: "login succesfully as customer" })
   }
@@ -312,7 +303,7 @@ exports.getLogin = (req, res) => {
     res.status(200).send({ msg: "login fail" })
   }
 };
-
+// login for customer
 exports.postLogin = (req, res, next) => {
 
   const validationErrors = [];
@@ -341,7 +332,7 @@ exports.postLogin = (req, res, next) => {
     });
   })(req, res, next);
 }
-
+// logout for customer
 exports.logout = (req, res) => {
   req.logout();
   req.session.destroy((err) => {
@@ -350,7 +341,7 @@ exports.logout = (req, res) => {
     res.status(200).send({ msg: "longout success" })
   });
 };
-
+// get register in time
 exports.findRegisterFromTo = (req, res) => {
   const from = moment(req.params.from);
   const to = moment(req.params.to)

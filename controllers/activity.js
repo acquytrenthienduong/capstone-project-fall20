@@ -3,13 +3,14 @@ const Activity = db.historyactivity;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 
+// create activity
 exports.create = (req, res) => {
 
-    // Create a Tutorial
+    // Create a Activity
     const activity = {
         content: req.body.content,
     };
-    // Save Tutorial in the database
+    // Save Activity in the database
     Activity.create(activity)
         .then(data => {
             res.send(data);
@@ -22,7 +23,7 @@ exports.create = (req, res) => {
         });
 };
 
-
+// get all activity
 exports.findAll = (req, res) => {
     Activity.findAll({
         order: [

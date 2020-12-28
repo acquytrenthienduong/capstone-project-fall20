@@ -3,16 +3,17 @@ const Notification = db.notification;
 const Op = db.Sequelize.Op;
 const passport = require('passport');
 
+// create notification for custoemr
 exports.create = (req, res) => {
 
-    // Create a Tutorial
+    // Create a Notification
     const notification = {
         notification_type: 0,
         content: req.body.content,
         seen: 0
     };
 
-    // Save Tutorial in the database
+    // Save Notification in the database
     Notification.create(notification)
         .then(data => {
             res.send(data);
@@ -25,6 +26,7 @@ exports.create = (req, res) => {
         });
 };
 
+// get all notification for customer 
 exports.findAllNotificationForCustomer = (req, res) => {
     let id = req.params.id
     Notification.findAll({
@@ -45,14 +47,13 @@ exports.findAllNotificationForCustomer = (req, res) => {
         })
 }
 
+// update notification status
 exports.seenNoti = (req, res) => {
     const id = req.params.id;
-    // console.log('req.body', req.body);
     Notification.update(req.body.noti, {
         where: { notification_id: id }
     })
         .then(num => {
-            console.log(num);
             if (num == 1) {
                 res.send({
                     message: "Notification was updated successfully."
@@ -69,16 +70,14 @@ exports.seenNoti = (req, res) => {
             });
         });
 }
-
+// update one notification
 exports.seenOne = (req, res) => {
     const id = req.params.id;
     // let seen = req.body.seen
-    console.log('req.body.seen', req.body.noti)
     Notification.update(req.body.noti, {
         where: { notification_id: id }
     })
         .then(num => {
-            console.log(num);
             if (num == 1) {
                 res.send({
                     message: "Notification was updated successfully."

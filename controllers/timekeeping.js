@@ -2,7 +2,7 @@ const db = require("../models/index");
 const Timekeeping = db.timekeeping;
 const Staff = db.staff;
 const Shift = db.shift;
-
+// get all time
 exports.findAll = (req, res) => {
     Staff.hasMany(Timekeeping, { foreignKey: 'staff_staff_id' })
     Timekeeping.belongsTo(Staff, { foreignKey: 'staff_staff_id' })
@@ -21,7 +21,6 @@ exports.findAll = (req, res) => {
         ]
     })
         .then(data => {
-            // console.log("data", data)
             res.send(data);
         })
         .catch(err => {
